@@ -49,7 +49,7 @@ func execOnOneRuleType(
 	}
 	defer closer()
 
-	r, err := minderv1.ParseRuleType(reader)
+	r, err := minderv1.RuleType.ParseRuleType(reader)
 	if err != nil {
 		return fmt.Errorf("error parsing rule type: %w", err)
 	}

@@ -1956,17 +1956,17 @@ func local_request_ProfileService_GetProfileStatusByProject_0(ctx context.Contex
 }
 
 var (
-	filter_ProfileService_ListRuleTypes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_RuleTypeService_ListRuleTypes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_ProfileService_ListRuleTypes_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_RuleTypeService_ListRuleTypes_0(ctx context.Context, marshaler runtime.Marshaler, client RuleTypeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListRuleTypesRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_ListRuleTypes_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_ListRuleTypes_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1975,14 +1975,14 @@ func request_ProfileService_ListRuleTypes_0(ctx context.Context, marshaler runti
 
 }
 
-func local_request_ProfileService_ListRuleTypes_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_RuleTypeService_ListRuleTypes_0(ctx context.Context, marshaler runtime.Marshaler, server RuleTypeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListRuleTypesRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_ListRuleTypes_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_ListRuleTypes_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1992,10 +1992,10 @@ func local_request_ProfileService_ListRuleTypes_0(ctx context.Context, marshaler
 }
 
 var (
-	filter_ProfileService_GetRuleTypeByName_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_RuleTypeService_GetRuleTypeByName_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_ProfileService_GetRuleTypeByName_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_RuleTypeService_GetRuleTypeByName_0(ctx context.Context, marshaler runtime.Marshaler, client RuleTypeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetRuleTypeByNameRequest
 	var metadata runtime.ServerMetadata
 
@@ -2019,7 +2019,7 @@ func request_ProfileService_GetRuleTypeByName_0(ctx context.Context, marshaler r
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_GetRuleTypeByName_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_GetRuleTypeByName_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -2028,7 +2028,7 @@ func request_ProfileService_GetRuleTypeByName_0(ctx context.Context, marshaler r
 
 }
 
-func local_request_ProfileService_GetRuleTypeByName_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_RuleTypeService_GetRuleTypeByName_0(ctx context.Context, marshaler runtime.Marshaler, server RuleTypeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetRuleTypeByNameRequest
 	var metadata runtime.ServerMetadata
 
@@ -2052,7 +2052,7 @@ func local_request_ProfileService_GetRuleTypeByName_0(ctx context.Context, marsh
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_GetRuleTypeByName_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_GetRuleTypeByName_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -2062,10 +2062,10 @@ func local_request_ProfileService_GetRuleTypeByName_0(ctx context.Context, marsh
 }
 
 var (
-	filter_ProfileService_GetRuleTypeById_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_RuleTypeService_GetRuleTypeById_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_ProfileService_GetRuleTypeById_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_RuleTypeService_GetRuleTypeById_0(ctx context.Context, marshaler runtime.Marshaler, client RuleTypeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetRuleTypeByIdRequest
 	var metadata runtime.ServerMetadata
 
@@ -2089,7 +2089,7 @@ func request_ProfileService_GetRuleTypeById_0(ctx context.Context, marshaler run
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_GetRuleTypeById_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_GetRuleTypeById_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -2098,7 +2098,7 @@ func request_ProfileService_GetRuleTypeById_0(ctx context.Context, marshaler run
 
 }
 
-func local_request_ProfileService_GetRuleTypeById_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_RuleTypeService_GetRuleTypeById_0(ctx context.Context, marshaler runtime.Marshaler, server RuleTypeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetRuleTypeByIdRequest
 	var metadata runtime.ServerMetadata
 
@@ -2122,7 +2122,7 @@ func local_request_ProfileService_GetRuleTypeById_0(ctx context.Context, marshal
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_GetRuleTypeById_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_GetRuleTypeById_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -2131,7 +2131,7 @@ func local_request_ProfileService_GetRuleTypeById_0(ctx context.Context, marshal
 
 }
 
-func request_ProfileService_CreateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_RuleTypeService_CreateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, client RuleTypeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateRuleTypeRequest
 	var metadata runtime.ServerMetadata
 
@@ -2144,7 +2144,7 @@ func request_ProfileService_CreateRuleType_0(ctx context.Context, marshaler runt
 
 }
 
-func local_request_ProfileService_CreateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_RuleTypeService_CreateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, server RuleTypeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateRuleTypeRequest
 	var metadata runtime.ServerMetadata
 
@@ -2157,7 +2157,7 @@ func local_request_ProfileService_CreateRuleType_0(ctx context.Context, marshale
 
 }
 
-func request_ProfileService_UpdateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_RuleTypeService_UpdateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, client RuleTypeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq UpdateRuleTypeRequest
 	var metadata runtime.ServerMetadata
 
@@ -2170,7 +2170,7 @@ func request_ProfileService_UpdateRuleType_0(ctx context.Context, marshaler runt
 
 }
 
-func local_request_ProfileService_UpdateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_RuleTypeService_UpdateRuleType_0(ctx context.Context, marshaler runtime.Marshaler, server RuleTypeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq UpdateRuleTypeRequest
 	var metadata runtime.ServerMetadata
 
@@ -2184,10 +2184,10 @@ func local_request_ProfileService_UpdateRuleType_0(ctx context.Context, marshale
 }
 
 var (
-	filter_ProfileService_DeleteRuleType_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_RuleTypeService_DeleteRuleType_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_ProfileService_DeleteRuleType_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_RuleTypeService_DeleteRuleType_0(ctx context.Context, marshaler runtime.Marshaler, client RuleTypeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DeleteRuleTypeRequest
 	var metadata runtime.ServerMetadata
 
@@ -2211,7 +2211,7 @@ func request_ProfileService_DeleteRuleType_0(ctx context.Context, marshaler runt
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_DeleteRuleType_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_DeleteRuleType_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -2220,7 +2220,7 @@ func request_ProfileService_DeleteRuleType_0(ctx context.Context, marshaler runt
 
 }
 
-func local_request_ProfileService_DeleteRuleType_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_RuleTypeService_DeleteRuleType_0(ctx context.Context, marshaler runtime.Marshaler, server RuleTypeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DeleteRuleTypeRequest
 	var metadata runtime.ServerMetadata
 
@@ -2244,7 +2244,7 @@ func local_request_ProfileService_DeleteRuleType_0(ctx context.Context, marshale
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProfileService_DeleteRuleType_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_RuleTypeService_DeleteRuleType_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3211,7 +3211,6 @@ func local_request_InviteService_GetInviteDetails_0(ctx context.Context, marshal
 // UnaryRPC     :call HealthServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterHealthServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterHealthServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server HealthServiceServer) error {
 
 	mux.Handle("GET", pattern_HealthService_CheckHealth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3246,7 +3245,6 @@ func RegisterHealthServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 // UnaryRPC     :call ArtifactServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterArtifactServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterArtifactServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ArtifactServiceServer) error {
 
 	mux.Handle("GET", pattern_ArtifactService_ListArtifacts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3356,7 +3354,6 @@ func RegisterArtifactServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 // UnaryRPC     :call OAuthServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterOAuthServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterOAuthServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server OAuthServiceServer) error {
 
 	mux.Handle("GET", pattern_OAuthService_GetAuthorizationURL_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3516,7 +3513,6 @@ func RegisterOAuthServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 // UnaryRPC     :call RepositoryServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterRepositoryServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterRepositoryServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server RepositoryServiceServer) error {
 
 	mux.Handle("POST", pattern_RepositoryService_RegisterRepository_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3826,7 +3822,6 @@ func RegisterRepositoryServiceHandlerServer(ctx context.Context, mux *runtime.Se
 // UnaryRPC     :call UserServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterUserServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterUserServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server UserServiceServer) error {
 
 	mux.Handle("POST", pattern_UserService_CreateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3961,7 +3956,6 @@ func RegisterUserServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 // UnaryRPC     :call ProfileServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterProfileServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ProfileServiceServer) error {
 
 	mux.Handle("POST", pattern_ProfileService_CreateProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4164,7 +4158,16 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 
 	})
 
-	mux.Handle("GET", pattern_ProfileService_ListRuleTypes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	return nil
+}
+
+// RegisterRuleTypeServiceHandlerServer registers the http handlers for service RuleTypeService to "mux".
+// UnaryRPC     :call RuleTypeServiceServer directly.
+// StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterRuleTypeServiceHandlerFromEndpoint instead.
+func RegisterRuleTypeServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server RuleTypeServiceServer) error {
+
+	mux.Handle("GET", pattern_RuleTypeService_ListRuleTypes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -4172,12 +4175,12 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.ProfileService/ListRuleTypes", runtime.WithHTTPPathPattern("/api/v1/rule_types"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.RuleTypeService/ListRuleTypes", runtime.WithHTTPPathPattern("/api/v1/rule_types"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ProfileService_ListRuleTypes_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_RuleTypeService_ListRuleTypes_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -4185,11 +4188,11 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_ProfileService_ListRuleTypes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_RuleTypeService_ListRuleTypes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_ProfileService_GetRuleTypeByName_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_RuleTypeService_GetRuleTypeByName_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -4197,12 +4200,12 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.ProfileService/GetRuleTypeByName", runtime.WithHTTPPathPattern("/api/v1/rule_type/name/{name=**}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.RuleTypeService/GetRuleTypeByName", runtime.WithHTTPPathPattern("/api/v1/rule_type/name/{name=**}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ProfileService_GetRuleTypeByName_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_RuleTypeService_GetRuleTypeByName_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -4210,11 +4213,11 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_ProfileService_GetRuleTypeByName_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_RuleTypeService_GetRuleTypeByName_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_ProfileService_GetRuleTypeById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_RuleTypeService_GetRuleTypeById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -4222,12 +4225,12 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.ProfileService/GetRuleTypeById", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.RuleTypeService/GetRuleTypeById", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ProfileService_GetRuleTypeById_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_RuleTypeService_GetRuleTypeById_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -4235,11 +4238,11 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_ProfileService_GetRuleTypeById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_RuleTypeService_GetRuleTypeById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ProfileService_CreateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_RuleTypeService_CreateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -4247,12 +4250,12 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.ProfileService/CreateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.RuleTypeService/CreateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ProfileService_CreateRuleType_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_RuleTypeService_CreateRuleType_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -4260,11 +4263,11 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_ProfileService_CreateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_RuleTypeService_CreateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_ProfileService_UpdateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_RuleTypeService_UpdateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -4272,12 +4275,12 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.ProfileService/UpdateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.RuleTypeService/UpdateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ProfileService_UpdateRuleType_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_RuleTypeService_UpdateRuleType_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -4285,11 +4288,11 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_ProfileService_UpdateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_RuleTypeService_UpdateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_ProfileService_DeleteRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_RuleTypeService_DeleteRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -4297,12 +4300,12 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.ProfileService/DeleteRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/minder.v1.RuleTypeService/DeleteRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ProfileService_DeleteRuleType_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_RuleTypeService_DeleteRuleType_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -4310,7 +4313,7 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_ProfileService_DeleteRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_RuleTypeService_DeleteRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -4321,7 +4324,6 @@ func RegisterProfileServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 // UnaryRPC     :call EvalResultsServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterEvalResultsServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterEvalResultsServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server EvalResultsServiceServer) error {
 
 	mux.Handle("GET", pattern_EvalResultsService_ListEvaluationResults_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4381,7 +4383,6 @@ func RegisterEvalResultsServiceHandlerServer(ctx context.Context, mux *runtime.S
 // UnaryRPC     :call PermissionsServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterPermissionsServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterPermissionsServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server PermissionsServiceServer) error {
 
 	mux.Handle("GET", pattern_PermissionsService_ListRoles_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4516,7 +4517,6 @@ func RegisterPermissionsServiceHandlerServer(ctx context.Context, mux *runtime.S
 // UnaryRPC     :call ProjectsServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterProjectsServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterProjectsServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ProjectsServiceServer) error {
 
 	mux.Handle("GET", pattern_ProjectsService_ListProjects_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4701,7 +4701,6 @@ func RegisterProjectsServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 // UnaryRPC     :call ProvidersServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterProvidersServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterProvidersServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ProvidersServiceServer) error {
 
 	mux.Handle("PATCH", pattern_ProvidersService_PatchProvider_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4936,7 +4935,6 @@ func RegisterProvidersServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 // UnaryRPC     :call InviteServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterInviteServiceHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterInviteServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server InviteServiceServer) error {
 
 	mux.Handle("GET", pattern_InviteService_GetInviteDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -5002,7 +5000,7 @@ func RegisterHealthServiceHandler(ctx context.Context, mux *runtime.ServeMux, co
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "HealthServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "HealthServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "HealthServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "HealthServiceClient" to call the correct interceptors.
 func RegisterHealthServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client HealthServiceClient) error {
 
 	mux.Handle("GET", pattern_HealthService_CheckHealth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -5073,7 +5071,7 @@ func RegisterArtifactServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ArtifactServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ArtifactServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "ArtifactServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "ArtifactServiceClient" to call the correct interceptors.
 func RegisterArtifactServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ArtifactServiceClient) error {
 
 	mux.Handle("GET", pattern_ArtifactService_ListArtifacts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -5222,7 +5220,7 @@ func RegisterOAuthServiceHandler(ctx context.Context, mux *runtime.ServeMux, con
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "OAuthServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "OAuthServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "OAuthServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "OAuthServiceClient" to call the correct interceptors.
 func RegisterOAuthServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client OAuthServiceClient) error {
 
 	mux.Handle("GET", pattern_OAuthService_GetAuthorizationURL_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -5423,7 +5421,7 @@ func RegisterRepositoryServiceHandler(ctx context.Context, mux *runtime.ServeMux
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "RepositoryServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "RepositoryServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "RepositoryServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "RepositoryServiceClient" to call the correct interceptors.
 func RegisterRepositoryServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client RepositoryServiceClient) error {
 
 	mux.Handle("POST", pattern_RepositoryService_RegisterRepository_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -5780,7 +5778,7 @@ func RegisterUserServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "UserServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "UserServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "UserServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "UserServiceClient" to call the correct interceptors.
 func RegisterUserServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UserServiceClient) error {
 
 	mux.Handle("POST", pattern_UserService_CreateUser_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -5955,7 +5953,7 @@ func RegisterProfileServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ProfileServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ProfileServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "ProfileServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "ProfileServiceClient" to call the correct interceptors.
 func RegisterProfileServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ProfileServiceClient) error {
 
 	mux.Handle("POST", pattern_ProfileService_CreateProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -6134,138 +6132,6 @@ func RegisterProfileServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 
 	})
 
-	mux.Handle("GET", pattern_ProfileService_ListRuleTypes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.ProfileService/ListRuleTypes", runtime.WithHTTPPathPattern("/api/v1/rule_types"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ProfileService_ListRuleTypes_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ProfileService_ListRuleTypes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("GET", pattern_ProfileService_GetRuleTypeByName_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.ProfileService/GetRuleTypeByName", runtime.WithHTTPPathPattern("/api/v1/rule_type/name/{name=**}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ProfileService_GetRuleTypeByName_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ProfileService_GetRuleTypeByName_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("GET", pattern_ProfileService_GetRuleTypeById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.ProfileService/GetRuleTypeById", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ProfileService_GetRuleTypeById_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ProfileService_GetRuleTypeById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("POST", pattern_ProfileService_CreateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.ProfileService/CreateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ProfileService_CreateRuleType_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ProfileService_CreateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("PUT", pattern_ProfileService_UpdateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.ProfileService/UpdateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ProfileService_UpdateRuleType_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ProfileService_UpdateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("DELETE", pattern_ProfileService_DeleteRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.ProfileService/DeleteRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ProfileService_DeleteRuleType_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ProfileService_DeleteRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
 	return nil
 }
 
@@ -6285,18 +6151,6 @@ var (
 	pattern_ProfileService_GetProfileStatusByName_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 3, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "profile", "name", "status"}, ""))
 
 	pattern_ProfileService_GetProfileStatusByProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "profile_status"}, ""))
-
-	pattern_ProfileService_ListRuleTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "rule_types"}, ""))
-
-	pattern_ProfileService_GetRuleTypeByName_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 3, 0, 4, 1, 5, 3}, []string{"api", "v1", "rule_type", "name"}, ""))
-
-	pattern_ProfileService_GetRuleTypeById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "rule_type", "id"}, ""))
-
-	pattern_ProfileService_CreateRuleType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "rule_type"}, ""))
-
-	pattern_ProfileService_UpdateRuleType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "rule_type"}, ""))
-
-	pattern_ProfileService_DeleteRuleType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "rule_type", "id"}, ""))
 )
 
 var (
@@ -6315,18 +6169,207 @@ var (
 	forward_ProfileService_GetProfileStatusByName_0 = runtime.ForwardResponseMessage
 
 	forward_ProfileService_GetProfileStatusByProject_0 = runtime.ForwardResponseMessage
+)
 
-	forward_ProfileService_ListRuleTypes_0 = runtime.ForwardResponseMessage
+// RegisterRuleTypeServiceHandlerFromEndpoint is same as RegisterRuleTypeServiceHandler but
+// automatically dials to "endpoint" and closes the connection when "ctx" gets done.
+func RegisterRuleTypeServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+	conn, err := grpc.NewClient(endpoint, opts...)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			if cerr := conn.Close(); cerr != nil {
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+			}
+			return
+		}
+		go func() {
+			<-ctx.Done()
+			if cerr := conn.Close(); cerr != nil {
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+			}
+		}()
+	}()
 
-	forward_ProfileService_GetRuleTypeByName_0 = runtime.ForwardResponseMessage
+	return RegisterRuleTypeServiceHandler(ctx, mux, conn)
+}
 
-	forward_ProfileService_GetRuleTypeById_0 = runtime.ForwardResponseMessage
+// RegisterRuleTypeServiceHandler registers the http handlers for service RuleTypeService to "mux".
+// The handlers forward requests to the grpc endpoint over "conn".
+func RegisterRuleTypeServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterRuleTypeServiceHandlerClient(ctx, mux, NewRuleTypeServiceClient(conn))
+}
 
-	forward_ProfileService_CreateRuleType_0 = runtime.ForwardResponseMessage
+// RegisterRuleTypeServiceHandlerClient registers the http handlers for service RuleTypeService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "RuleTypeServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "RuleTypeServiceClient"
+// doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
+// "RuleTypeServiceClient" to call the correct interceptors.
+func RegisterRuleTypeServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client RuleTypeServiceClient) error {
 
-	forward_ProfileService_UpdateRuleType_0 = runtime.ForwardResponseMessage
+	mux.Handle("GET", pattern_RuleTypeService_ListRuleTypes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.RuleTypeService/ListRuleTypes", runtime.WithHTTPPathPattern("/api/v1/rule_types"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RuleTypeService_ListRuleTypes_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
 
-	forward_ProfileService_DeleteRuleType_0 = runtime.ForwardResponseMessage
+		forward_RuleTypeService_ListRuleTypes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_RuleTypeService_GetRuleTypeByName_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.RuleTypeService/GetRuleTypeByName", runtime.WithHTTPPathPattern("/api/v1/rule_type/name/{name=**}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RuleTypeService_GetRuleTypeByName_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RuleTypeService_GetRuleTypeByName_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_RuleTypeService_GetRuleTypeById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.RuleTypeService/GetRuleTypeById", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RuleTypeService_GetRuleTypeById_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RuleTypeService_GetRuleTypeById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_RuleTypeService_CreateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.RuleTypeService/CreateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RuleTypeService_CreateRuleType_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RuleTypeService_CreateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("PUT", pattern_RuleTypeService_UpdateRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.RuleTypeService/UpdateRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RuleTypeService_UpdateRuleType_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RuleTypeService_UpdateRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("DELETE", pattern_RuleTypeService_DeleteRuleType_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/minder.v1.RuleTypeService/DeleteRuleType", runtime.WithHTTPPathPattern("/api/v1/rule_type/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RuleTypeService_DeleteRuleType_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RuleTypeService_DeleteRuleType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	return nil
+}
+
+var (
+	pattern_RuleTypeService_ListRuleTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "rule_types"}, ""))
+
+	pattern_RuleTypeService_GetRuleTypeByName_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 3, 0, 4, 1, 5, 3}, []string{"api", "v1", "rule_type", "name"}, ""))
+
+	pattern_RuleTypeService_GetRuleTypeById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "rule_type", "id"}, ""))
+
+	pattern_RuleTypeService_CreateRuleType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "rule_type"}, ""))
+
+	pattern_RuleTypeService_UpdateRuleType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "rule_type"}, ""))
+
+	pattern_RuleTypeService_DeleteRuleType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "rule_type", "id"}, ""))
+)
+
+var (
+	forward_RuleTypeService_ListRuleTypes_0 = runtime.ForwardResponseMessage
+
+	forward_RuleTypeService_GetRuleTypeByName_0 = runtime.ForwardResponseMessage
+
+	forward_RuleTypeService_GetRuleTypeById_0 = runtime.ForwardResponseMessage
+
+	forward_RuleTypeService_CreateRuleType_0 = runtime.ForwardResponseMessage
+
+	forward_RuleTypeService_UpdateRuleType_0 = runtime.ForwardResponseMessage
+
+	forward_RuleTypeService_DeleteRuleType_0 = runtime.ForwardResponseMessage
 )
 
 // RegisterEvalResultsServiceHandlerFromEndpoint is same as RegisterEvalResultsServiceHandler but
@@ -6364,7 +6407,7 @@ func RegisterEvalResultsServiceHandler(ctx context.Context, mux *runtime.ServeMu
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "EvalResultsServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "EvalResultsServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "EvalResultsServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "EvalResultsServiceClient" to call the correct interceptors.
 func RegisterEvalResultsServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client EvalResultsServiceClient) error {
 
 	mux.Handle("GET", pattern_EvalResultsService_ListEvaluationResults_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -6461,7 +6504,7 @@ func RegisterPermissionsServiceHandler(ctx context.Context, mux *runtime.ServeMu
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "PermissionsServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "PermissionsServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "PermissionsServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "PermissionsServiceClient" to call the correct interceptors.
 func RegisterPermissionsServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client PermissionsServiceClient) error {
 
 	mux.Handle("GET", pattern_PermissionsService_ListRoles_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -6636,7 +6679,7 @@ func RegisterProjectsServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ProjectsServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ProjectsServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "ProjectsServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "ProjectsServiceClient" to call the correct interceptors.
 func RegisterProjectsServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ProjectsServiceClient) error {
 
 	mux.Handle("GET", pattern_ProjectsService_ListProjects_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -6863,7 +6906,7 @@ func RegisterProvidersServiceHandler(ctx context.Context, mux *runtime.ServeMux,
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ProvidersServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ProvidersServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "ProvidersServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "ProvidersServiceClient" to call the correct interceptors.
 func RegisterProvidersServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ProvidersServiceClient) error {
 
 	mux.Handle("PATCH", pattern_ProvidersService_PatchProvider_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -7142,7 +7185,7 @@ func RegisterInviteServiceHandler(ctx context.Context, mux *runtime.ServeMux, co
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "InviteServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "InviteServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "InviteServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "InviteServiceClient" to call the correct interceptors.
 func RegisterInviteServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client InviteServiceClient) error {
 
 	mux.Handle("GET", pattern_InviteService_GetInviteDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

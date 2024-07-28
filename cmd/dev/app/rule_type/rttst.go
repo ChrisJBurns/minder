@@ -335,7 +335,7 @@ func readRuleTypeFromFile(fpath string) (*minderv1.RuleType, error) {
 		return nil, fmt.Errorf("error opening file: %w", err)
 	}
 
-	return minderv1.ParseRuleType(f)
+	return minderv1.Parse(f)
 }
 
 // readEntityFromFile reads an entity from a file and returns it as a protobuf
