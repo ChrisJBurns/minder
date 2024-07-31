@@ -451,6 +451,35 @@ paths:
           format: int64
       tags:
         - EvalResultsService
+  /api/v1/history/{id}:
+    get:
+      operationId: EvalResultsService_GetEvaluationHistory
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetEvaluationHistoryResponse'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: context.provider
+          description: name of the provider
+          in: query
+          required: false
+          type: string
+        - name: context.project
+          description: ID of the project
+          in: query
+          required: false
+          type: string
+        - name: context.retiredOrganization
+          in: query
+          required: false
+          type: string
+      tags:
+        - EvalResultsService
   /api/v1/invite/{code}:
     get:
       operationId: InviteService_GetInviteDetails
@@ -667,6 +696,37 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/v1UpdateProfileRequest'
+      tags:
+        - ProfileService
+  /api/v1/profile/name/{name}:
+    get:
+      operationId: ProfileService_GetProfileByName
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetProfileByNameResponse'
+      parameters:
+        - name: name
+          description: name is the name of the profile to get
+          in: path
+          required: true
+          type: string
+          pattern: .+
+        - name: context.provider
+          description: name of the provider
+          in: query
+          required: false
+          type: string
+        - name: context.project
+          description: ID of the project
+          in: query
+          required: false
+          type: string
+        - name: context.retiredOrganization
+          in: query
+          required: false
+          type: string
       tags:
         - ProfileService
   /api/v1/profile/name/{name}/status:
@@ -2687,6 +2747,9 @@ definitions:
       profile:
         type: string
         description: profile is the name of the profile which contains the rule.
+      severity:
+        $ref: '#/definitions/v1Severity'
+        description: severity is the severity of the rule type.
   v1EvaluationHistoryStatus:
     type: object
     properties:
@@ -2729,6 +2792,15 @@ definitions:
         type: string
       state:
         type: string
+  v1GetEvaluationHistoryResponse:
+    type: object
+    properties:
+      evaluation:
+        $ref: '#/definitions/v1EvaluationHistory'
+        title: The requested record
+    description: |-
+      GetEvaluationHistoryResponse represents a response message for the
+      GetEvaluationHistory RPC.
   v1GetInviteDetailsResponse:
     type: object
     properties:
@@ -2746,6 +2818,11 @@ definitions:
         type: boolean
         title: expired is true if the invitation has expired
   v1GetProfileByIdResponse:
+    type: object
+    properties:
+      profile:
+        $ref: '#/definitions/v1Profile'
+  v1GetProfileByNameResponse:
     type: object
     properties:
       profile:
