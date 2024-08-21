@@ -18,12 +18,18 @@ type Querier interface {
 	CountProfilesByName(ctx context.Context, name string) (int64, error)
 	CountRepositories(ctx context.Context) (int64, error)
 	CountUsers(ctx context.Context) (int64, error)
+	// CreateEntity adds an entry to the entity_instances table so it can be tracked by Minder.
+	CreateEntity(ctx context.Context, arg CreateEntityParams) (EntityInstance, error)
+	// CreateEntityWithID adds an entry to the entities table with a specific ID so it can be tracked by Minder.
+	CreateEntityWithID(ctx context.Context, arg CreateEntityWithIDParams) (EntityInstance, error)
 	// CreateInvitation creates a new invitation. The code is a secret that is sent
 	// to the invitee, and the email is the address to which the invitation will be
 	// sent. The role is the role that the invitee will have when they accept the
 	// invitation. The project is the project to which the invitee will be invited.
 	// The sponsor is the user who is inviting the invitee.
 	CreateInvitation(ctx context.Context, arg CreateInvitationParams) (UserInvite, error)
+	// CreateOrEnsureEntityByID adds an entry to the entity_instances table if it does not exist, or returns the existing entry.
+	CreateOrEnsureEntityByID(ctx context.Context, arg CreateOrEnsureEntityByIDParams) (EntityInstance, error)
 	CreateProfile(ctx context.Context, arg CreateProfileParams) (Profile, error)
 	CreateProfileForEntity(ctx context.Context, arg CreateProfileForEntityParams) (EntityProfile, error)
 	CreateProject(ctx context.Context, arg CreateProjectParams) (Project, error)
@@ -38,6 +44,10 @@ type Querier interface {
 	CreateSubscription(ctx context.Context, arg CreateSubscriptionParams) (Subscription, error)
 	CreateUser(ctx context.Context, identitySubject string) (User, error)
 	DeleteArtifact(ctx context.Context, id uuid.UUID) error
+	// DeleteEntity removes an entity from the entity_instances table for a project.
+	DeleteEntity(ctx context.Context, arg DeleteEntityParams) error
+	// DeleteEntityByName removes an entity from the entity_instances table for a project.
+	DeleteEntityByName(ctx context.Context, arg DeleteEntityByNameParams) error
 	DeleteEvaluationHistoryByIDs(ctx context.Context, evaluationids []uuid.UUID) (int64, error)
 	DeleteExpiredSessionStates(ctx context.Context) (int64, error)
 	DeleteInstallationIDByAppID(ctx context.Context, appInstallationID int64) error
@@ -52,9 +62,6 @@ type Querier interface {
 	DeleteProvider(ctx context.Context, arg DeleteProviderParams) error
 	DeletePullRequest(ctx context.Context, arg DeletePullRequestParams) error
 	DeleteRepository(ctx context.Context, id uuid.UUID) error
-	// DeleteRuleStatusesForProfileAndRuleType deletes a rule evaluation
-	// but locks the table before doing so.
-	DeleteRuleStatusesForProfileAndRuleType(ctx context.Context, arg DeleteRuleStatusesForProfileAndRuleTypeParams) error
 	DeleteRuleType(ctx context.Context, id uuid.UUID) error
 	DeleteSelector(ctx context.Context, id uuid.UUID) error
 	DeleteSelectorsByProfileID(ctx context.Context, profileID uuid.UUID) error
@@ -65,7 +72,7 @@ type Querier interface {
 	// providers by it. It also optionally takes a name, in case we want to
 	// filter by name as well.
 	FindProviders(ctx context.Context, arg FindProvidersParams) ([]Provider, error)
-	FlushCache(ctx context.Context, arg FlushCacheParams) (FlushCache, error)
+	FlushCache(ctx context.Context, entityInstanceID uuid.UUID) (FlushCache, error)
 	GetAccessTokenByEnrollmentNonce(ctx context.Context, arg GetAccessTokenByEnrollmentNonceParams) (ProviderAccessToken, error)
 	GetAccessTokenByProjectID(ctx context.Context, arg GetAccessTokenByProjectIDParams) (ProviderAccessToken, error)
 	GetAccessTokenByProvider(ctx context.Context, provider string) ([]ProviderAccessToken, error)
@@ -74,6 +81,14 @@ type Querier interface {
 	GetArtifactByName(ctx context.Context, arg GetArtifactByNameParams) (Artifact, error)
 	GetBundle(ctx context.Context, arg GetBundleParams) (Bundle, error)
 	GetChildrenProjects(ctx context.Context, id uuid.UUID) ([]GetChildrenProjectsRow, error)
+	// GetEntitiesByType retrieves all entities of a given type for a project or hierarchy of projects.
+	// this is how one would get all repositories, artifacts, etc.
+	GetEntitiesByType(ctx context.Context, arg GetEntitiesByTypeParams) ([]EntityInstance, error)
+	// GetEntityByID retrieves an entity by its ID for a project or hierarchy of projects.
+	GetEntityByID(ctx context.Context, arg GetEntityByIDParams) (EntityInstance, error)
+	// GetEntityByName retrieves an entity by its name for a project or hierarchy of projects.
+	GetEntityByName(ctx context.Context, arg GetEntityByNameParams) (EntityInstance, error)
+	GetEvaluationHistory(ctx context.Context, arg GetEvaluationHistoryParams) (GetEvaluationHistoryRow, error)
 	// GetFeatureInProject verifies if a feature is available for a specific project.
 	// It returns the settings for the feature if it is available.
 	GetFeatureInProject(ctx context.Context, arg GetFeatureInProjectParams) (json.RawMessage, error)
@@ -117,6 +132,7 @@ type Querier interface {
 	GetProfileByIDAndLock(ctx context.Context, arg GetProfileByIDAndLockParams) (Profile, error)
 	GetProfileByNameAndLock(ctx context.Context, arg GetProfileByNameAndLockParams) (Profile, error)
 	GetProfileByProjectAndID(ctx context.Context, arg GetProfileByProjectAndIDParams) ([]GetProfileByProjectAndIDRow, error)
+	GetProfileByProjectAndName(ctx context.Context, arg GetProfileByProjectAndNameParams) ([]GetProfileByProjectAndNameRow, error)
 	GetProfileStatusByIdAndProject(ctx context.Context, arg GetProfileStatusByIdAndProjectParams) (GetProfileStatusByIdAndProjectRow, error)
 	GetProfileStatusByNameAndProject(ctx context.Context, arg GetProfileStatusByNameAndProjectParams) (GetProfileStatusByNameAndProjectRow, error)
 	GetProfileStatusByProject(ctx context.Context, projectID uuid.UUID) ([]GetProfileStatusByProjectRow, error)
@@ -135,6 +151,8 @@ type Querier interface {
 	GetProviderWebhooks(ctx context.Context, providerID uuid.UUID) ([]GetProviderWebhooksRow, error)
 	GetPullRequest(ctx context.Context, arg GetPullRequestParams) (PullRequest, error)
 	GetPullRequestByID(ctx context.Context, id uuid.UUID) (PullRequest, error)
+	GetRepoPathFromArtifactID(ctx context.Context, id uuid.UUID) (GetRepoPathFromArtifactIDRow, error)
+	GetRepoPathFromPullRequestID(ctx context.Context, id uuid.UUID) (GetRepoPathFromPullRequestIDRow, error)
 	// avoid using this, where possible use GetRepositoryByIDAndProject instead
 	GetRepositoryByID(ctx context.Context, id uuid.UUID) (Repository, error)
 	GetRepositoryByIDAndProject(ctx context.Context, arg GetRepositoryByIDAndProjectParams) (Repository, error)
@@ -220,6 +238,17 @@ type Querier interface {
 	ReleaseLock(ctx context.Context, arg ReleaseLockParams) error
 	RepositoryExistsAfterID(ctx context.Context, id uuid.UUID) (bool, error)
 	SetCurrentVersion(ctx context.Context, arg SetCurrentVersionParams) error
+	TemporaryPopulateArtifacts(ctx context.Context) error
+	// TemporaryPopulateEvaluationHistory sets the entity_instance_id column for
+	// all existing evaluation_rule_entities records to the id of the entity
+	// instance that the rule entity is associated with. We derive this from the entity_type
+	// and the corresponding entity id (repository_id, pull_request_id, or artifact_id).
+	// Note that there are cases where repository_id and pull_request_id will both be set,
+	// so we need to rely on the entity_type to determine which one to use. The same
+	// applies to repository_id and artifact_id.
+	TemporaryPopulateEvaluationHistory(ctx context.Context) error
+	TemporaryPopulatePullRequests(ctx context.Context) error
+	TemporaryPopulateRepositories(ctx context.Context) error
 	UpdateEncryptedSecret(ctx context.Context, arg UpdateEncryptedSecretParams) error
 	// UpdateInvitationRole updates an invitation by its code. This is intended to be
 	// called by a user who has issued an invitation and then decided to change the
@@ -253,10 +282,6 @@ type Querier interface {
 	UpsertLatestEvaluationStatus(ctx context.Context, arg UpsertLatestEvaluationStatusParams) error
 	UpsertProfileForEntity(ctx context.Context, arg UpsertProfileForEntityParams) (EntityProfile, error)
 	UpsertPullRequest(ctx context.Context, arg UpsertPullRequestParams) (PullRequest, error)
-	UpsertRuleDetailsAlert(ctx context.Context, arg UpsertRuleDetailsAlertParams) (uuid.UUID, error)
-	UpsertRuleDetailsEval(ctx context.Context, arg UpsertRuleDetailsEvalParams) (uuid.UUID, error)
-	UpsertRuleDetailsRemediate(ctx context.Context, arg UpsertRuleDetailsRemediateParams) (uuid.UUID, error)
-	UpsertRuleEvaluations(ctx context.Context, arg UpsertRuleEvaluationsParams) (uuid.UUID, error)
 	// Copyright 2024 Stacklok, Inc
 	//
 	// Licensed under the Apache License, Version 2.0 (the "License");

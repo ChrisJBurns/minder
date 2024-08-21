@@ -161,6 +161,36 @@ func (mr *MockStoreMockRecorder) CountUsers(arg0 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountUsers", reflect.TypeOf((*MockStore)(nil).CountUsers), arg0)
 }
 
+// CreateEntity mocks base method.
+func (m *MockStore) CreateEntity(arg0 context.Context, arg1 db.CreateEntityParams) (db.EntityInstance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateEntity", arg0, arg1)
+	ret0, _ := ret[0].(db.EntityInstance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateEntity indicates an expected call of CreateEntity.
+func (mr *MockStoreMockRecorder) CreateEntity(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateEntity", reflect.TypeOf((*MockStore)(nil).CreateEntity), arg0, arg1)
+}
+
+// CreateEntityWithID mocks base method.
+func (m *MockStore) CreateEntityWithID(arg0 context.Context, arg1 db.CreateEntityWithIDParams) (db.EntityInstance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateEntityWithID", arg0, arg1)
+	ret0, _ := ret[0].(db.EntityInstance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateEntityWithID indicates an expected call of CreateEntityWithID.
+func (mr *MockStoreMockRecorder) CreateEntityWithID(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateEntityWithID", reflect.TypeOf((*MockStore)(nil).CreateEntityWithID), arg0, arg1)
+}
+
 // CreateInvitation mocks base method.
 func (m *MockStore) CreateInvitation(arg0 context.Context, arg1 db.CreateInvitationParams) (db.UserInvite, error) {
 	m.ctrl.T.Helper()
@@ -174,6 +204,21 @@ func (m *MockStore) CreateInvitation(arg0 context.Context, arg1 db.CreateInvitat
 func (mr *MockStoreMockRecorder) CreateInvitation(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInvitation", reflect.TypeOf((*MockStore)(nil).CreateInvitation), arg0, arg1)
+}
+
+// CreateOrEnsureEntityByID mocks base method.
+func (m *MockStore) CreateOrEnsureEntityByID(arg0 context.Context, arg1 db.CreateOrEnsureEntityByIDParams) (db.EntityInstance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateOrEnsureEntityByID", arg0, arg1)
+	ret0, _ := ret[0].(db.EntityInstance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateOrEnsureEntityByID indicates an expected call of CreateOrEnsureEntityByID.
+func (mr *MockStoreMockRecorder) CreateOrEnsureEntityByID(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOrEnsureEntityByID", reflect.TypeOf((*MockStore)(nil).CreateOrEnsureEntityByID), arg0, arg1)
 }
 
 // CreateProfile mocks base method.
@@ -370,6 +415,34 @@ func (mr *MockStoreMockRecorder) DeleteArtifact(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteArtifact", reflect.TypeOf((*MockStore)(nil).DeleteArtifact), arg0, arg1)
 }
 
+// DeleteEntity mocks base method.
+func (m *MockStore) DeleteEntity(arg0 context.Context, arg1 db.DeleteEntityParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteEntity", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteEntity indicates an expected call of DeleteEntity.
+func (mr *MockStoreMockRecorder) DeleteEntity(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteEntity", reflect.TypeOf((*MockStore)(nil).DeleteEntity), arg0, arg1)
+}
+
+// DeleteEntityByName mocks base method.
+func (m *MockStore) DeleteEntityByName(arg0 context.Context, arg1 db.DeleteEntityByNameParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteEntityByName", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteEntityByName indicates an expected call of DeleteEntityByName.
+func (mr *MockStoreMockRecorder) DeleteEntityByName(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteEntityByName", reflect.TypeOf((*MockStore)(nil).DeleteEntityByName), arg0, arg1)
+}
+
 // DeleteEvaluationHistoryByIDs mocks base method.
 func (m *MockStore) DeleteEvaluationHistoryByIDs(arg0 context.Context, arg1 []uuid.UUID) (int64, error) {
 	m.ctrl.T.Helper()
@@ -528,20 +601,6 @@ func (mr *MockStoreMockRecorder) DeleteRepository(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRepository", reflect.TypeOf((*MockStore)(nil).DeleteRepository), arg0, arg1)
 }
 
-// DeleteRuleStatusesForProfileAndRuleType mocks base method.
-func (m *MockStore) DeleteRuleStatusesForProfileAndRuleType(arg0 context.Context, arg1 db.DeleteRuleStatusesForProfileAndRuleTypeParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRuleStatusesForProfileAndRuleType", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRuleStatusesForProfileAndRuleType indicates an expected call of DeleteRuleStatusesForProfileAndRuleType.
-func (mr *MockStoreMockRecorder) DeleteRuleStatusesForProfileAndRuleType(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRuleStatusesForProfileAndRuleType", reflect.TypeOf((*MockStore)(nil).DeleteRuleStatusesForProfileAndRuleType), arg0, arg1)
-}
-
 // DeleteRuleType mocks base method.
 func (m *MockStore) DeleteRuleType(arg0 context.Context, arg1 uuid.UUID) error {
 	m.ctrl.T.Helper()
@@ -643,7 +702,7 @@ func (mr *MockStoreMockRecorder) FindProviders(arg0, arg1 any) *gomock.Call {
 }
 
 // FlushCache mocks base method.
-func (m *MockStore) FlushCache(arg0 context.Context, arg1 db.FlushCacheParams) (db.FlushCache, error) {
+func (m *MockStore) FlushCache(arg0 context.Context, arg1 uuid.UUID) (db.FlushCache, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FlushCache", arg0, arg1)
 	ret0, _ := ret[0].(db.FlushCache)
@@ -775,6 +834,66 @@ func (m *MockStore) GetChildrenProjects(arg0 context.Context, arg1 uuid.UUID) ([
 func (mr *MockStoreMockRecorder) GetChildrenProjects(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetChildrenProjects", reflect.TypeOf((*MockStore)(nil).GetChildrenProjects), arg0, arg1)
+}
+
+// GetEntitiesByType mocks base method.
+func (m *MockStore) GetEntitiesByType(arg0 context.Context, arg1 db.GetEntitiesByTypeParams) ([]db.EntityInstance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEntitiesByType", arg0, arg1)
+	ret0, _ := ret[0].([]db.EntityInstance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEntitiesByType indicates an expected call of GetEntitiesByType.
+func (mr *MockStoreMockRecorder) GetEntitiesByType(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEntitiesByType", reflect.TypeOf((*MockStore)(nil).GetEntitiesByType), arg0, arg1)
+}
+
+// GetEntityByID mocks base method.
+func (m *MockStore) GetEntityByID(arg0 context.Context, arg1 db.GetEntityByIDParams) (db.EntityInstance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEntityByID", arg0, arg1)
+	ret0, _ := ret[0].(db.EntityInstance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEntityByID indicates an expected call of GetEntityByID.
+func (mr *MockStoreMockRecorder) GetEntityByID(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEntityByID", reflect.TypeOf((*MockStore)(nil).GetEntityByID), arg0, arg1)
+}
+
+// GetEntityByName mocks base method.
+func (m *MockStore) GetEntityByName(arg0 context.Context, arg1 db.GetEntityByNameParams) (db.EntityInstance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEntityByName", arg0, arg1)
+	ret0, _ := ret[0].(db.EntityInstance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEntityByName indicates an expected call of GetEntityByName.
+func (mr *MockStoreMockRecorder) GetEntityByName(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEntityByName", reflect.TypeOf((*MockStore)(nil).GetEntityByName), arg0, arg1)
+}
+
+// GetEvaluationHistory mocks base method.
+func (m *MockStore) GetEvaluationHistory(arg0 context.Context, arg1 db.GetEvaluationHistoryParams) (db.GetEvaluationHistoryRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEvaluationHistory", arg0, arg1)
+	ret0, _ := ret[0].(db.GetEvaluationHistoryRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEvaluationHistory indicates an expected call of GetEvaluationHistory.
+func (mr *MockStoreMockRecorder) GetEvaluationHistory(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEvaluationHistory", reflect.TypeOf((*MockStore)(nil).GetEvaluationHistory), arg0, arg1)
 }
 
 // GetFeatureInProject mocks base method.
@@ -1002,6 +1121,21 @@ func (mr *MockStoreMockRecorder) GetProfileByProjectAndID(arg0, arg1 any) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProfileByProjectAndID", reflect.TypeOf((*MockStore)(nil).GetProfileByProjectAndID), arg0, arg1)
 }
 
+// GetProfileByProjectAndName mocks base method.
+func (m *MockStore) GetProfileByProjectAndName(arg0 context.Context, arg1 db.GetProfileByProjectAndNameParams) ([]db.GetProfileByProjectAndNameRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProfileByProjectAndName", arg0, arg1)
+	ret0, _ := ret[0].([]db.GetProfileByProjectAndNameRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProfileByProjectAndName indicates an expected call of GetProfileByProjectAndName.
+func (mr *MockStoreMockRecorder) GetProfileByProjectAndName(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProfileByProjectAndName", reflect.TypeOf((*MockStore)(nil).GetProfileByProjectAndName), arg0, arg1)
+}
+
 // GetProfileStatusByIdAndProject mocks base method.
 func (m *MockStore) GetProfileStatusByIdAndProject(arg0 context.Context, arg1 db.GetProfileStatusByIdAndProjectParams) (db.GetProfileStatusByIdAndProjectRow, error) {
 	m.ctrl.T.Helper()
@@ -1196,6 +1330,36 @@ func (mr *MockStoreMockRecorder) GetQuerierWithTransaction(arg0 any) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQuerierWithTransaction", reflect.TypeOf((*MockStore)(nil).GetQuerierWithTransaction), arg0)
 }
 
+// GetRepoPathFromArtifactID mocks base method.
+func (m *MockStore) GetRepoPathFromArtifactID(arg0 context.Context, arg1 uuid.UUID) (db.GetRepoPathFromArtifactIDRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRepoPathFromArtifactID", arg0, arg1)
+	ret0, _ := ret[0].(db.GetRepoPathFromArtifactIDRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRepoPathFromArtifactID indicates an expected call of GetRepoPathFromArtifactID.
+func (mr *MockStoreMockRecorder) GetRepoPathFromArtifactID(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoPathFromArtifactID", reflect.TypeOf((*MockStore)(nil).GetRepoPathFromArtifactID), arg0, arg1)
+}
+
+// GetRepoPathFromPullRequestID mocks base method.
+func (m *MockStore) GetRepoPathFromPullRequestID(arg0 context.Context, arg1 uuid.UUID) (db.GetRepoPathFromPullRequestIDRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRepoPathFromPullRequestID", arg0, arg1)
+	ret0, _ := ret[0].(db.GetRepoPathFromPullRequestIDRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRepoPathFromPullRequestID indicates an expected call of GetRepoPathFromPullRequestID.
+func (mr *MockStoreMockRecorder) GetRepoPathFromPullRequestID(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoPathFromPullRequestID", reflect.TypeOf((*MockStore)(nil).GetRepoPathFromPullRequestID), arg0, arg1)
+}
+
 // GetRepositoryByID mocks base method.
 func (m *MockStore) GetRepositoryByID(arg0 context.Context, arg1 uuid.UUID) (db.Repository, error) {
 	m.ctrl.T.Helper()
@@ -1257,10 +1421,10 @@ func (mr *MockStoreMockRecorder) GetRepositoryByRepoName(arg0, arg1 any) *gomock
 }
 
 // GetRuleEvaluationByProfileIdAndRuleType mocks base method.
-func (m *MockStore) GetRuleEvaluationByProfileIdAndRuleType(arg0 context.Context, arg1 uuid.UUID, arg2 db.NullEntities, arg3 sql.NullString, arg4 uuid.NullUUID, arg5 sql.NullString) (db.ListRuleEvaluationsByProfileIdRow, error) {
+func (m *MockStore) GetRuleEvaluationByProfileIdAndRuleType(arg0 context.Context, arg1 uuid.UUID, arg2 db.NullEntities, arg3 sql.NullString, arg4 uuid.NullUUID, arg5 sql.NullString) (*db.ListRuleEvaluationsByProfileIdRow, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRuleEvaluationByProfileIdAndRuleType", arg0, arg1, arg2, arg3, arg4, arg5)
-	ret0, _ := ret[0].(db.ListRuleEvaluationsByProfileIdRow)
+	ret0, _ := ret[0].(*db.ListRuleEvaluationsByProfileIdRow)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1926,6 +2090,62 @@ func (mr *MockStoreMockRecorder) SetCurrentVersion(arg0, arg1 any) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentVersion", reflect.TypeOf((*MockStore)(nil).SetCurrentVersion), arg0, arg1)
 }
 
+// TemporaryPopulateArtifacts mocks base method.
+func (m *MockStore) TemporaryPopulateArtifacts(arg0 context.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TemporaryPopulateArtifacts", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// TemporaryPopulateArtifacts indicates an expected call of TemporaryPopulateArtifacts.
+func (mr *MockStoreMockRecorder) TemporaryPopulateArtifacts(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemporaryPopulateArtifacts", reflect.TypeOf((*MockStore)(nil).TemporaryPopulateArtifacts), arg0)
+}
+
+// TemporaryPopulateEvaluationHistory mocks base method.
+func (m *MockStore) TemporaryPopulateEvaluationHistory(arg0 context.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TemporaryPopulateEvaluationHistory", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// TemporaryPopulateEvaluationHistory indicates an expected call of TemporaryPopulateEvaluationHistory.
+func (mr *MockStoreMockRecorder) TemporaryPopulateEvaluationHistory(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemporaryPopulateEvaluationHistory", reflect.TypeOf((*MockStore)(nil).TemporaryPopulateEvaluationHistory), arg0)
+}
+
+// TemporaryPopulatePullRequests mocks base method.
+func (m *MockStore) TemporaryPopulatePullRequests(arg0 context.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TemporaryPopulatePullRequests", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// TemporaryPopulatePullRequests indicates an expected call of TemporaryPopulatePullRequests.
+func (mr *MockStoreMockRecorder) TemporaryPopulatePullRequests(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemporaryPopulatePullRequests", reflect.TypeOf((*MockStore)(nil).TemporaryPopulatePullRequests), arg0)
+}
+
+// TemporaryPopulateRepositories mocks base method.
+func (m *MockStore) TemporaryPopulateRepositories(arg0 context.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TemporaryPopulateRepositories", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// TemporaryPopulateRepositories indicates an expected call of TemporaryPopulateRepositories.
+func (mr *MockStoreMockRecorder) TemporaryPopulateRepositories(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemporaryPopulateRepositories", reflect.TypeOf((*MockStore)(nil).TemporaryPopulateRepositories), arg0)
+}
+
 // UpdateEncryptedSecret mocks base method.
 func (m *MockStore) UpdateEncryptedSecret(arg0 context.Context, arg1 db.UpdateEncryptedSecretParams) error {
 	m.ctrl.T.Helper()
@@ -2158,66 +2378,6 @@ func (m *MockStore) UpsertPullRequest(arg0 context.Context, arg1 db.UpsertPullRe
 func (mr *MockStoreMockRecorder) UpsertPullRequest(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertPullRequest", reflect.TypeOf((*MockStore)(nil).UpsertPullRequest), arg0, arg1)
-}
-
-// UpsertRuleDetailsAlert mocks base method.
-func (m *MockStore) UpsertRuleDetailsAlert(arg0 context.Context, arg1 db.UpsertRuleDetailsAlertParams) (uuid.UUID, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpsertRuleDetailsAlert", arg0, arg1)
-	ret0, _ := ret[0].(uuid.UUID)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// UpsertRuleDetailsAlert indicates an expected call of UpsertRuleDetailsAlert.
-func (mr *MockStoreMockRecorder) UpsertRuleDetailsAlert(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRuleDetailsAlert", reflect.TypeOf((*MockStore)(nil).UpsertRuleDetailsAlert), arg0, arg1)
-}
-
-// UpsertRuleDetailsEval mocks base method.
-func (m *MockStore) UpsertRuleDetailsEval(arg0 context.Context, arg1 db.UpsertRuleDetailsEvalParams) (uuid.UUID, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpsertRuleDetailsEval", arg0, arg1)
-	ret0, _ := ret[0].(uuid.UUID)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// UpsertRuleDetailsEval indicates an expected call of UpsertRuleDetailsEval.
-func (mr *MockStoreMockRecorder) UpsertRuleDetailsEval(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRuleDetailsEval", reflect.TypeOf((*MockStore)(nil).UpsertRuleDetailsEval), arg0, arg1)
-}
-
-// UpsertRuleDetailsRemediate mocks base method.
-func (m *MockStore) UpsertRuleDetailsRemediate(arg0 context.Context, arg1 db.UpsertRuleDetailsRemediateParams) (uuid.UUID, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpsertRuleDetailsRemediate", arg0, arg1)
-	ret0, _ := ret[0].(uuid.UUID)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// UpsertRuleDetailsRemediate indicates an expected call of UpsertRuleDetailsRemediate.
-func (mr *MockStoreMockRecorder) UpsertRuleDetailsRemediate(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRuleDetailsRemediate", reflect.TypeOf((*MockStore)(nil).UpsertRuleDetailsRemediate), arg0, arg1)
-}
-
-// UpsertRuleEvaluations mocks base method.
-func (m *MockStore) UpsertRuleEvaluations(arg0 context.Context, arg1 db.UpsertRuleEvaluationsParams) (uuid.UUID, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpsertRuleEvaluations", arg0, arg1)
-	ret0, _ := ret[0].(uuid.UUID)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// UpsertRuleEvaluations indicates an expected call of UpsertRuleEvaluations.
-func (mr *MockStoreMockRecorder) UpsertRuleEvaluations(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRuleEvaluations", reflect.TypeOf((*MockStore)(nil).UpsertRuleEvaluations), arg0, arg1)
 }
 
 // UpsertRuleInstance mocks base method.

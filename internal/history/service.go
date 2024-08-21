@@ -34,7 +34,6 @@ import (
 type EvaluationHistoryService interface {
 	// StoreEvaluationStatus stores the result of this evaluation in the history table.
 	// Returns the UUID of the evaluation status, and the UUID of the rule-entity
-	// TODO: stop returning rule-entity ID once we get rid of the old tables.
 	StoreEvaluationStatus(
 		ctx context.Context,
 		qtx db.Querier,
@@ -43,7 +42,8 @@ type EvaluationHistoryService interface {
 		entityType db.Entities,
 		entityID uuid.UUID,
 		evalError error,
-	) (uuid.UUID, uuid.UUID, error)
+		marshaledCheckpoint []byte,
+	) (uuid.UUID, error)
 	// ListEvaluationHistory returns a list of evaluations stored
 	// in the history table.
 	ListEvaluationHistory(
@@ -70,14 +70,15 @@ func (e *evaluationHistoryService) StoreEvaluationStatus(
 	entityType db.Entities,
 	entityID uuid.UUID,
 	evalError error,
-) (uuid.UUID, uuid.UUID, error) {
+	marshaledCheckpoint []byte,
+) (uuid.UUID, error) {
 	var ruleEntityID uuid.UUID
 	status := evalerrors.ErrorAsEvalStatus(evalError)
 	details := evalerrors.ErrorAsEvalDetails(evalError)
 
 	params, err := paramsFromEntity(ruleID, entityID, entityType)
 	if err != nil {
-		return uuid.Nil, uuid.Nil, err
+		return uuid.Nil, err
 	}
 
 	// find the latest record for this rule/entity pair
@@ -94,32 +95,30 @@ func (e *evaluationHistoryService) StoreEvaluationStatus(
 		if errors.Is(err, sql.ErrNoRows) {
 			ruleEntityID, err = qtx.InsertEvaluationRuleEntity(ctx,
 				db.InsertEvaluationRuleEntityParams{
-					RuleID:        params.RuleID,
-					RepositoryID:  params.RepositoryID,
-					PullRequestID: params.PullRequestID,
-					ArtifactID:    params.ArtifactID,
-					EntityType: db.NullEntities{
-						Entities: entityType,
-						Valid:    true,
-					},
+					RuleID:           params.RuleID,
+					RepositoryID:     params.RepositoryID,
+					PullRequestID:    params.PullRequestID,
+					ArtifactID:       params.ArtifactID,
+					EntityType:       entityType,
+					EntityInstanceID: params.EntityID,
 				},
 			)
 			if err != nil {
-				return uuid.Nil, uuid.Nil, fmt.Errorf("error while creating new rule/entity in database: %w", err)
+				return uuid.Nil, fmt.Errorf("error while creating new rule/entity in database: %w", err)
 			}
 		} else {
-			return uuid.Nil, uuid.Nil, fmt.Errorf("error while querying DB: %w", err)
+			return uuid.Nil, fmt.Errorf("error while querying DB: %w", err)
 		}
 	} else {
 		ruleEntityID = latestRecord.RuleEntityID
 	}
 
-	evaluationID, err := e.createNewStatus(ctx, qtx, ruleEntityID, profileID, status, details)
+	evaluationID, err := e.createNewStatus(ctx, qtx, ruleEntityID, profileID, status, details, marshaledCheckpoint)
 	if err != nil {
-		return uuid.Nil, uuid.Nil, fmt.Errorf("error while creating new evaluation status for rule/entity %s: %w", ruleEntityID, err)
+		return uuid.Nil, fmt.Errorf("error while creating new evaluation status for rule/entity %s: %w", ruleEntityID, err)
 	}
 
-	return evaluationID, ruleEntityID, nil
+	return evaluationID, nil
 }
 
 func (_ *evaluationHistoryService) createNewStatus(
@@ -129,12 +128,14 @@ func (_ *evaluationHistoryService) createNewStatus(
 	profileID uuid.UUID,
 	status db.EvalStatusTypes,
 	details string,
+	marshaledCheckpoint []byte,
 ) (uuid.UUID, error) {
 	newEvaluationID, err := qtx.InsertEvaluationStatus(ctx,
 		db.InsertEvaluationStatusParams{
 			RuleEntityID: ruleEntityID,
 			Status:       status,
 			Details:      details,
+			Checkpoint:   marshaledCheckpoint,
 		},
 	)
 	if err != nil {
@@ -146,10 +147,7 @@ func (_ *evaluationHistoryService) createNewStatus(
 		db.UpsertLatestEvaluationStatusParams{
 			RuleEntityID:        ruleEntityID,
 			EvaluationHistoryID: newEvaluationID,
-			ProfileID: uuid.NullUUID{
-				UUID:  profileID,
-				Valid: true,
-			},
+			ProfileID:           profileID,
 		},
 	)
 	if err != nil {
@@ -171,6 +169,8 @@ func paramsFromEntity(
 		Valid: true,
 	}
 
+	params.EntityID = entityID
+
 	switch entityType {
 	case db.EntitiesRepository:
 		params.RepositoryID = nullableEntityID
@@ -191,6 +191,9 @@ type ruleEntityParams struct {
 	RepositoryID  uuid.NullUUID
 	ArtifactID    uuid.NullUUID
 	PullRequestID uuid.NullUUID
+	// Is the target entity ID. We'll be replacing the single-entity IDs
+	// with this one.
+	EntityID uuid.UUID
 }
 
 func (_ *evaluationHistoryService) ListEvaluationHistory(
@@ -201,7 +204,7 @@ func (_ *evaluationHistoryService) ListEvaluationHistory(
 	filter ListEvaluationFilter,
 ) (*ListEvaluationHistoryResult, error) {
 	params := db.ListEvaluationHistoryParams{
-		Size: int32(size),
+		Size: int64(size),
 	}
 
 	if err := toSQLCursor(cursor, &params); err != nil {

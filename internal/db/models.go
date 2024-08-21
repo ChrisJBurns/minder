@@ -247,6 +247,7 @@ const (
 	ProviderClassGithubApp ProviderClass = "github-app"
 	ProviderClassGhcr      ProviderClass = "ghcr"
 	ProviderClassDockerhub ProviderClass = "dockerhub"
+	ProviderClassGitlab    ProviderClass = "gitlab"
 )
 
 func (e *ProviderClass) Scan(src interface{}) error {
@@ -458,14 +459,25 @@ type Entitlement struct {
 }
 
 type EntityExecutionLock struct {
-	ID            uuid.UUID     `json:"id"`
-	Entity        Entities      `json:"entity"`
-	LockedBy      uuid.UUID     `json:"locked_by"`
-	LastLockTime  time.Time     `json:"last_lock_time"`
-	RepositoryID  uuid.NullUUID `json:"repository_id"`
-	ArtifactID    uuid.NullUUID `json:"artifact_id"`
-	PullRequestID uuid.NullUUID `json:"pull_request_id"`
-	ProjectID     uuid.NullUUID `json:"project_id"`
+	ID               uuid.UUID     `json:"id"`
+	Entity           Entities      `json:"entity"`
+	LockedBy         uuid.UUID     `json:"locked_by"`
+	LastLockTime     time.Time     `json:"last_lock_time"`
+	RepositoryID     uuid.NullUUID `json:"repository_id"`
+	ArtifactID       uuid.NullUUID `json:"artifact_id"`
+	PullRequestID    uuid.NullUUID `json:"pull_request_id"`
+	ProjectID        uuid.NullUUID `json:"project_id"`
+	EntityInstanceID uuid.UUID     `json:"entity_instance_id"`
+}
+
+type EntityInstance struct {
+	ID             uuid.UUID     `json:"id"`
+	EntityType     Entities      `json:"entity_type"`
+	Name           string        `json:"name"`
+	ProjectID      uuid.UUID     `json:"project_id"`
+	ProviderID     uuid.UUID     `json:"provider_id"`
+	CreatedAt      time.Time     `json:"created_at"`
+	OriginatedFrom uuid.NullUUID `json:"originated_from"`
 }
 
 type EntityProfile struct {
@@ -478,20 +490,14 @@ type EntityProfile struct {
 	Migrated        bool            `json:"migrated"`
 }
 
-type EntityProfileRule struct {
-	ID              uuid.UUID `json:"id"`
-	EntityProfileID uuid.UUID `json:"entity_profile_id"`
-	RuleTypeID      uuid.UUID `json:"rule_type_id"`
-	CreatedAt       time.Time `json:"created_at"`
-}
-
 type EvaluationRuleEntity struct {
-	ID            uuid.UUID     `json:"id"`
-	RuleID        uuid.UUID     `json:"rule_id"`
-	RepositoryID  uuid.NullUUID `json:"repository_id"`
-	PullRequestID uuid.NullUUID `json:"pull_request_id"`
-	ArtifactID    uuid.NullUUID `json:"artifact_id"`
-	EntityType    NullEntities  `json:"entity_type"`
+	ID               uuid.UUID     `json:"id"`
+	RuleID           uuid.UUID     `json:"rule_id"`
+	RepositoryID     uuid.NullUUID `json:"repository_id"`
+	PullRequestID    uuid.NullUUID `json:"pull_request_id"`
+	ArtifactID       uuid.NullUUID `json:"artifact_id"`
+	EntityType       Entities      `json:"entity_type"`
+	EntityInstanceID uuid.UUID     `json:"entity_instance_id"`
 }
 
 type EvaluationStatus struct {
@@ -500,6 +506,7 @@ type EvaluationStatus struct {
 	Status         EvalStatusTypes `json:"status"`
 	Details        string          `json:"details"`
 	EvaluationTime time.Time       `json:"evaluation_time"`
+	Checkpoint     json.RawMessage `json:"checkpoint"`
 }
 
 type Feature struct {
@@ -510,19 +517,20 @@ type Feature struct {
 }
 
 type FlushCache struct {
-	ID            uuid.UUID     `json:"id"`
-	Entity        Entities      `json:"entity"`
-	RepositoryID  uuid.NullUUID `json:"repository_id"`
-	ArtifactID    uuid.NullUUID `json:"artifact_id"`
-	PullRequestID uuid.NullUUID `json:"pull_request_id"`
-	QueuedAt      time.Time     `json:"queued_at"`
-	ProjectID     uuid.NullUUID `json:"project_id"`
+	ID               uuid.UUID     `json:"id"`
+	Entity           Entities      `json:"entity"`
+	RepositoryID     uuid.NullUUID `json:"repository_id"`
+	ArtifactID       uuid.NullUUID `json:"artifact_id"`
+	PullRequestID    uuid.NullUUID `json:"pull_request_id"`
+	QueuedAt         time.Time     `json:"queued_at"`
+	ProjectID        uuid.NullUUID `json:"project_id"`
+	EntityInstanceID uuid.UUID     `json:"entity_instance_id"`
 }
 
 type LatestEvaluationStatus struct {
-	RuleEntityID        uuid.UUID     `json:"rule_entity_id"`
-	EvaluationHistoryID uuid.UUID     `json:"evaluation_history_id"`
-	ProfileID           uuid.NullUUID `json:"profile_id"`
+	RuleEntityID        uuid.UUID `json:"rule_entity_id"`
+	EvaluationHistoryID uuid.UUID `json:"evaluation_history_id"`
+	ProfileID           uuid.UUID `json:"profile_id"`
 }
 
 type Profile struct {
@@ -573,6 +581,14 @@ type Project struct {
 	ParentID       uuid.NullUUID   `json:"parent_id"`
 	CreatedAt      time.Time       `json:"created_at"`
 	UpdatedAt      time.Time       `json:"updated_at"`
+}
+
+type Property struct {
+	ID        uuid.UUID       `json:"id"`
+	EntityID  uuid.UUID       `json:"entity_id"`
+	Key       string          `json:"key"`
+	Value     json.RawMessage `json:"value"`
+	UpdatedAt time.Time       `json:"updated_at"`
 }
 
 type Provider struct {
@@ -649,45 +665,6 @@ type Repository struct {
 	License          sql.NullString `json:"license"`
 	ProviderID       uuid.UUID      `json:"provider_id"`
 	ReminderLastSent sql.NullTime   `json:"reminder_last_sent"`
-}
-
-type RuleDetailsAlert struct {
-	ID          uuid.UUID        `json:"id"`
-	RuleEvalID  uuid.UUID        `json:"rule_eval_id"`
-	Status      AlertStatusTypes `json:"status"`
-	Details     string           `json:"details"`
-	Metadata    json.RawMessage  `json:"metadata"`
-	LastUpdated time.Time        `json:"last_updated"`
-}
-
-type RuleDetailsEval struct {
-	ID          uuid.UUID       `json:"id"`
-	RuleEvalID  uuid.UUID       `json:"rule_eval_id"`
-	Status      EvalStatusTypes `json:"status"`
-	Details     string          `json:"details"`
-	LastUpdated time.Time       `json:"last_updated"`
-}
-
-type RuleDetailsRemediate struct {
-	ID          uuid.UUID              `json:"id"`
-	RuleEvalID  uuid.UUID              `json:"rule_eval_id"`
-	Status      RemediationStatusTypes `json:"status"`
-	Details     string                 `json:"details"`
-	LastUpdated time.Time              `json:"last_updated"`
-	Metadata    json.RawMessage        `json:"metadata"`
-}
-
-type RuleEvaluation struct {
-	ID             uuid.UUID     `json:"id"`
-	Entity         Entities      `json:"entity"`
-	ProfileID      uuid.UUID     `json:"profile_id"`
-	RuleTypeID     uuid.UUID     `json:"rule_type_id"`
-	RepositoryID   uuid.NullUUID `json:"repository_id"`
-	ArtifactID     uuid.NullUUID `json:"artifact_id"`
-	PullRequestID  uuid.NullUUID `json:"pull_request_id"`
-	RuleName       string        `json:"rule_name"`
-	RuleEntityID   uuid.NullUUID `json:"rule_entity_id"`
-	RuleInstanceID uuid.NullUUID `json:"rule_instance_id"`
 }
 
 type RuleInstance struct {

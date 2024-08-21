@@ -26,7 +26,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/sqlc-dev/pqtype"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
 	serverconfig "github.com/stacklok/minder/internal/config/server"
@@ -44,6 +43,7 @@ import (
 	"github.com/stacklok/minder/internal/providers/credentials"
 	"github.com/stacklok/minder/internal/providers/dockerhub"
 	"github.com/stacklok/minder/internal/providers/github/clients"
+	"github.com/stacklok/minder/internal/providers/gitlab"
 	"github.com/stacklok/minder/internal/providers/ratecache"
 	provsel "github.com/stacklok/minder/internal/providers/selectors"
 	"github.com/stacklok/minder/internal/providers/telemetry"
@@ -131,15 +131,12 @@ func testCmdRun(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("error reading fragment from file: %w", err)
 	}
 
-	remediateStatus := db.NullRemediationStatusTypes{}
+	remediateStatus := db.RemediationStatusTypesSkipped
 	if rstatus.Value.String() != "" {
-		remediateStatus = db.NullRemediationStatusTypes{
-			RemediationStatusTypes: db.RemediationStatusTypes(rstatus.Value.String()),
-			Valid:                  true,
-		}
+		remediateStatus = db.RemediationStatusTypes(rstatus.Value.String())
 	}
 
-	remMetadata := pqtype.NullRawMessage{}
+	var remMetadata json.RawMessage = []byte("{}")
 	if rMetaPath.Value.String() != "" {
 		f, err := os.Open(filepath.Clean(rMetaPath.Value.String()))
 		if err != nil {
@@ -152,10 +149,7 @@ func testCmdRun(cmd *cobra.Command, _ []string) error {
 			return fmt.Errorf("error decoding json: %w", err)
 		}
 
-		remMetadata = pqtype.NullRawMessage{
-			RawMessage: jsonMetadata,
-			Valid:      true,
-		}
+		remMetadata = jsonMetadata
 	}
 
 	// Disable actions
@@ -244,8 +238,8 @@ func runEvaluationForRules(
 	inf *entities.EntityInfoWrapper,
 	provider provifv1.Provider,
 	entitySelectors selectors.Selection,
-	remediateStatus db.NullRemediationStatusTypes,
-	remMetadata pqtype.NullRawMessage,
+	remediateStatus db.RemediationStatusTypes,
+	remMetadata json.RawMessage,
 	frags []*minderv1.Profile_Rule,
 	actionEngine *actions.RuleActionsEngine,
 ) error {
@@ -416,6 +410,18 @@ func getProvider(pstr string, token string, providerConfigFile string) (provifv1
 			return nil, fmt.Errorf("error instantiating dockerhub provider: %w", err)
 		}
 
+		return client, nil
+	case "gitlab":
+		// read provider config
+		cfg, err := gitlab.ParseV1Config(cfgbytes)
+		if err != nil {
+			return nil, fmt.Errorf("error parsing gitlab provider config: %w", err)
+		}
+
+		client, err := gitlab.New(credentials.NewGitLabTokenCredential(token), cfg)
+		if err != nil {
+			return nil, fmt.Errorf("error instantiating gitlab provider: %w", err)
+		}
 		return client, nil
 	default:
 		return nil, fmt.Errorf("unknown or unsupported provider: %s", pstr)

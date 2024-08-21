@@ -23,6 +23,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"
 
+	"github.com/stacklok/minder/internal/entities/properties"
 	internalpb "github.com/stacklok/minder/internal/proto"
 	minderv1 "github.com/stacklok/minder/pkg/api/protobuf/go/minder/v1"
 	provifv1 "github.com/stacklok/minder/pkg/providers/v1"
@@ -74,6 +75,25 @@ func artifactToSelectorEntity(t *testing.T, name, class string, artifact *minder
 	}
 }
 
+func pullRequestToSelectorEntity(t *testing.T, name, class string, pr *minderv1.PullRequest) *internalpb.SelectorEntity {
+	t.Helper()
+
+	fullName := fmt.Sprintf("%s/%s/%d", pr.GetRepoOwner(), pr.GetRepoName(), pr.GetNumber())
+	return &internalpb.SelectorEntity{
+		EntityType: minderv1.Entity_ENTITY_PULL_REQUESTS,
+		Name:       fullName,
+		Provider: &internalpb.SelectorProvider{
+			Name:  name,
+			Class: class,
+		},
+		Entity: &internalpb.SelectorEntity_PullRequest{
+			PullRequest: &internalpb.SelectorPullRequest{
+				Name: fullName,
+			},
+		},
+	}
+}
+
 type fullProvider struct {
 	name  string
 	class string
@@ -90,6 +110,22 @@ func (m *fullProvider) RepoToSelectorEntity(_ context.Context, repo *minderv1.Re
 
 func (m *fullProvider) ArtifactToSelectorEntity(_ context.Context, artifact *minderv1.Artifact) *internalpb.SelectorEntity {
 	return artifactToSelectorEntity(m.t, m.name, m.class, artifact)
+}
+
+func (m *fullProvider) PullRequestToSelectorEntity(_ context.Context, pr *minderv1.PullRequest) *internalpb.SelectorEntity {
+	return pullRequestToSelectorEntity(m.t, m.name, m.class, pr)
+}
+
+func (_ *fullProvider) FetchAllProperties(_ context.Context, _ string, _ minderv1.Entity) (*properties.Properties, error) {
+	return nil, nil
+}
+
+func (_ *fullProvider) FetchProperty(_ context.Context, _ string, _ minderv1.Entity, _ string) (*properties.Property, error) {
+	return nil, nil
+}
+
+func (_ *fullProvider) GetEntityName(_ minderv1.Entity, _ *properties.Properties) (string, error) {
+	return "", nil
 }
 
 func newMockProvider(t *testing.T, name, class string) *fullProvider {
@@ -120,6 +156,18 @@ func newRepoOnlyProvider(t *testing.T, name, class string) *repoOnlyProvider {
 
 func (_ *repoOnlyProvider) CanImplement(_ minderv1.ProviderType) bool {
 	return true
+}
+
+func (_ *repoOnlyProvider) FetchAllProperties(_ context.Context, _ string, _ minderv1.Entity) (*properties.Properties, error) {
+	return nil, nil
+}
+
+func (_ *repoOnlyProvider) FetchProperty(_ context.Context, _ string, _ minderv1.Entity, _ string) (*properties.Property, error) {
+	return nil, nil
+}
+
+func (_ *repoOnlyProvider) GetEntityName(_ minderv1.Entity, _ *properties.Properties) (string, error) {
+	return "", nil
 }
 
 func (m *repoOnlyProvider) RepoToSelectorEntity(_ context.Context, repo *minderv1.Repository) *internalpb.SelectorEntity {
@@ -156,6 +204,17 @@ func TestEntityToSelectorEntity(t *testing.T) {
 				Owner: "testorg",
 				Name:  "testartifact",
 				Type:  "container",
+			},
+			success: true,
+		},
+		{
+			name:       "Pull Request",
+			provider:   newMockProvider(t, "github", "github"),
+			entityType: minderv1.Entity_ENTITY_PULL_REQUESTS,
+			entity: &minderv1.PullRequest{
+				RepoOwner: "testorg",
+				RepoName:  "testartifact",
+				Number:    12345,
 			},
 			success: true,
 		},

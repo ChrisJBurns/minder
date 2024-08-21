@@ -39,9 +39,112 @@ func (q *Queries) DeleteEvaluationHistoryByIDs(ctx context.Context, evaluationid
 	return result.RowsAffected()
 }
 
+const getEvaluationHistory = `-- name: GetEvaluationHistory :one
+SELECT s.id::uuid AS evaluation_id,
+    s.evaluation_time as evaluated_at,
+    ere.entity_type,
+    -- entity id
+       CAST(
+           CASE
+               WHEN ere.repository_id IS NOT NULL THEN r.id
+               WHEN ere.pull_request_id IS NOT NULL THEN pr.id
+               WHEN ere.artifact_id IS NOT NULL THEN a.id
+           END AS uuid
+       ) AS entity_id,
+    ere.entity_instance_id as new_entity_id,
+    -- raw fields for entity names
+    r.repo_owner,
+    r.repo_name,
+    pr.pr_number,
+    a.artifact_name,
+    j.id as project_id,
+    -- rule type, name, and profile
+    rt.name AS rule_type,
+    ri.name AS rule_name,
+    rt.severity_value as rule_severity,
+    p.name AS profile_name,
+    -- evaluation status and details
+    s.status AS evaluation_status,
+    s.details AS evaluation_details,
+    -- remediation status and details
+    re.status AS remediation_status,
+    re.details AS remediation_details,
+    -- alert status and details
+    ae.status AS alert_status,
+    ae.details AS alert_details
+FROM evaluation_statuses s
+    JOIN evaluation_rule_entities ere ON ere.id = s.rule_entity_id
+    JOIN rule_instances ri ON ere.rule_id = ri.id
+    JOIN rule_type rt ON ri.rule_type_id = rt.id
+    JOIN profiles p ON ri.profile_id = p.id
+    LEFT JOIN repositories r ON ere.repository_id = r.id
+    LEFT JOIN pull_requests pr ON ere.pull_request_id = pr.id
+    LEFT JOIN artifacts a ON ere.artifact_id = a.id
+    LEFT JOIN remediation_events re ON re.evaluation_id = s.id
+    LEFT JOIN alert_events ae ON ae.evaluation_id = s.id
+    LEFT JOIN projects j ON r.project_id = j.id
+WHERE s.id = $1 AND j.id = $2
+`
+
+type GetEvaluationHistoryParams struct {
+	EvaluationID uuid.UUID `json:"evaluation_id"`
+	ProjectID    uuid.UUID `json:"project_id"`
+}
+
+type GetEvaluationHistoryRow struct {
+	EvaluationID       uuid.UUID                  `json:"evaluation_id"`
+	EvaluatedAt        time.Time                  `json:"evaluated_at"`
+	EntityType         Entities                   `json:"entity_type"`
+	EntityID           uuid.UUID                  `json:"entity_id"`
+	NewEntityID        uuid.UUID                  `json:"new_entity_id"`
+	RepoOwner          sql.NullString             `json:"repo_owner"`
+	RepoName           sql.NullString             `json:"repo_name"`
+	PrNumber           sql.NullInt64              `json:"pr_number"`
+	ArtifactName       sql.NullString             `json:"artifact_name"`
+	ProjectID          uuid.NullUUID              `json:"project_id"`
+	RuleType           string                     `json:"rule_type"`
+	RuleName           string                     `json:"rule_name"`
+	RuleSeverity       Severity                   `json:"rule_severity"`
+	ProfileName        string                     `json:"profile_name"`
+	EvaluationStatus   EvalStatusTypes            `json:"evaluation_status"`
+	EvaluationDetails  string                     `json:"evaluation_details"`
+	RemediationStatus  NullRemediationStatusTypes `json:"remediation_status"`
+	RemediationDetails sql.NullString             `json:"remediation_details"`
+	AlertStatus        NullAlertStatusTypes       `json:"alert_status"`
+	AlertDetails       sql.NullString             `json:"alert_details"`
+}
+
+func (q *Queries) GetEvaluationHistory(ctx context.Context, arg GetEvaluationHistoryParams) (GetEvaluationHistoryRow, error) {
+	row := q.db.QueryRowContext(ctx, getEvaluationHistory, arg.EvaluationID, arg.ProjectID)
+	var i GetEvaluationHistoryRow
+	err := row.Scan(
+		&i.EvaluationID,
+		&i.EvaluatedAt,
+		&i.EntityType,
+		&i.EntityID,
+		&i.NewEntityID,
+		&i.RepoOwner,
+		&i.RepoName,
+		&i.PrNumber,
+		&i.ArtifactName,
+		&i.ProjectID,
+		&i.RuleType,
+		&i.RuleName,
+		&i.RuleSeverity,
+		&i.ProfileName,
+		&i.EvaluationStatus,
+		&i.EvaluationDetails,
+		&i.RemediationStatus,
+		&i.RemediationDetails,
+		&i.AlertStatus,
+		&i.AlertDetails,
+	)
+	return i, err
+}
+
 const getLatestEvalStateForRuleEntity = `-- name: GetLatestEvalStateForRuleEntity :one
 
-SELECT eh.id, eh.rule_entity_id, eh.status, eh.details, eh.evaluation_time FROM evaluation_rule_entities AS re
+SELECT eh.id, eh.rule_entity_id, eh.status, eh.details, eh.evaluation_time, eh.checkpoint FROM evaluation_rule_entities AS re
 JOIN latest_evaluation_statuses AS les ON les.rule_entity_id = re.id
 JOIN evaluation_statuses AS eh ON les.evaluation_history_id = eh.id
 WHERE re.rule_id = $1
@@ -87,6 +190,7 @@ func (q *Queries) GetLatestEvalStateForRuleEntity(ctx context.Context, arg GetLa
 		&i.Status,
 		&i.Details,
 		&i.EvaluationTime,
+		&i.Checkpoint,
 	)
 	return i, err
 }
@@ -128,23 +232,26 @@ INSERT INTO evaluation_rule_entities(
     repository_id,
     pull_request_id,
     artifact_id,
-    entity_type
+    entity_type,
+    entity_instance_id
 ) VALUES (
     $1,
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6
 )
 RETURNING id
 `
 
 type InsertEvaluationRuleEntityParams struct {
-	RuleID        uuid.UUID     `json:"rule_id"`
-	RepositoryID  uuid.NullUUID `json:"repository_id"`
-	PullRequestID uuid.NullUUID `json:"pull_request_id"`
-	ArtifactID    uuid.NullUUID `json:"artifact_id"`
-	EntityType    NullEntities  `json:"entity_type"`
+	RuleID           uuid.UUID     `json:"rule_id"`
+	RepositoryID     uuid.NullUUID `json:"repository_id"`
+	PullRequestID    uuid.NullUUID `json:"pull_request_id"`
+	ArtifactID       uuid.NullUUID `json:"artifact_id"`
+	EntityType       Entities      `json:"entity_type"`
+	EntityInstanceID uuid.UUID     `json:"entity_instance_id"`
 }
 
 func (q *Queries) InsertEvaluationRuleEntity(ctx context.Context, arg InsertEvaluationRuleEntityParams) (uuid.UUID, error) {
@@ -154,6 +261,7 @@ func (q *Queries) InsertEvaluationRuleEntity(ctx context.Context, arg InsertEval
 		arg.PullRequestID,
 		arg.ArtifactID,
 		arg.EntityType,
+		arg.EntityInstanceID,
 	)
 	var id uuid.UUID
 	err := row.Scan(&id)
@@ -164,11 +272,13 @@ const insertEvaluationStatus = `-- name: InsertEvaluationStatus :one
 INSERT INTO evaluation_statuses(
     rule_entity_id,
     status,
-    details
+    details,
+    checkpoint
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4::jsonb
 )
 RETURNING id
 `
@@ -177,10 +287,16 @@ type InsertEvaluationStatusParams struct {
 	RuleEntityID uuid.UUID       `json:"rule_entity_id"`
 	Status       EvalStatusTypes `json:"status"`
 	Details      string          `json:"details"`
+	Checkpoint   json.RawMessage `json:"checkpoint"`
 }
 
 func (q *Queries) InsertEvaluationStatus(ctx context.Context, arg InsertEvaluationStatusParams) (uuid.UUID, error) {
-	row := q.db.QueryRowContext(ctx, insertEvaluationStatus, arg.RuleEntityID, arg.Status, arg.Details)
+	row := q.db.QueryRowContext(ctx, insertEvaluationStatus,
+		arg.RuleEntityID,
+		arg.Status,
+		arg.Details,
+		arg.Checkpoint,
+	)
 	var id uuid.UUID
 	err := row.Scan(&id)
 	return id, err
@@ -220,14 +336,7 @@ func (q *Queries) InsertRemediationEvent(ctx context.Context, arg InsertRemediat
 const listEvaluationHistory = `-- name: ListEvaluationHistory :many
 SELECT s.id::uuid AS evaluation_id,
        s.evaluation_time as evaluated_at,
-       -- entity type
-       CAST(
-         CASE
-         WHEN ere.repository_id IS NOT NULL THEN 'repository'
-         WHEN ere.pull_request_id IS NOT NULL THEN 'pull_request'
-         WHEN ere.artifact_id IS NOT NULL THEN 'artifact'
-         END AS entities
-       ) AS entity_type,
+       ere.entity_type,
        -- entity id
        CAST(
          CASE
@@ -236,6 +345,7 @@ SELECT s.id::uuid AS evaluation_id,
          WHEN ere.artifact_id IS NOT NULL THEN a.id
          END AS uuid
        ) AS entity_id,
+        ere.entity_instance_id as new_entity_id,
        -- raw fields for entity names
        r.repo_owner,
        r.repo_name,
@@ -245,6 +355,7 @@ SELECT s.id::uuid AS evaluation_id,
        -- rule type, name, and profile
        rt.name AS rule_type,
        ri.name AS rule_name,
+       rt.severity_value as rule_severity,
        p.name AS profile_name,
        -- evaluation status and details
        s.status AS evaluation_status,
@@ -269,7 +380,7 @@ SELECT s.id::uuid AS evaluation_id,
  WHERE ($1::timestamp without time zone IS NULL OR $1 > s.evaluation_time)
    AND ($2::timestamp without time zone IS NULL OR $2 < s.evaluation_time)
    -- inclusion filters
-   AND ($3::entities[] IS NULL OR ri.entity_type = ANY($3::entities[]))
+   AND ($3::entities[] IS NULL OR ere.entity_type = ANY($3::entities[]))
    AND ($4::text[] IS NULL OR ere.repository_id IS NULL OR CONCAT(r.repo_owner, '/', r.repo_name) = ANY($4::text[]))
    AND ($4::text[] IS NULL OR ere.pull_request_id IS NULL OR pr.pr_number::text = ANY($4::text[]))
    AND ($4::text[] IS NULL OR ere.artifact_id IS NULL OR a.artifact_name = ANY($4::text[]))
@@ -278,14 +389,14 @@ SELECT s.id::uuid AS evaluation_id,
    AND ($7::alert_status_types[] IS NULL OR ae.status = ANY($7::alert_status_types[]))
    AND ($8::eval_status_types[] IS NULL OR s.status = ANY($8::eval_status_types[]))
    -- exclusion filters
-   AND ($9::entities[] IS NULL OR ri.entity_type != ANY($9::entities[]))
-   AND ($10::text[] IS NULL OR ere.repository_id IS NULL OR CONCAT(r.repo_owner, '/', r.repo_name) != ANY($10::text[]))
-   AND ($10::text[] IS NULL OR ere.pull_request_id IS NULL OR pr.pr_number::text != ANY($10::text[]))
-   AND ($10::text[] IS NULL OR ere.artifact_id IS NULL OR a.artifact_name != ANY($10::text[]))
-   AND ($11::text[] IS NULL OR p.name != ANY($11::text[]))
-   AND ($12::remediation_status_types[] IS NULL OR re.status != ANY($12::remediation_status_types[]))
-   AND ($13::alert_status_types[] IS NULL OR ae.status != ANY($13::alert_status_types[]))
-   AND ($14::eval_status_types[] IS NULL OR s.status != ANY($14::eval_status_types[]))
+   AND ($9::entities[] IS NULL OR ere.entity_type != ALL($9::entities[]))
+   AND ($10::text[] IS NULL OR ere.repository_id IS NULL OR CONCAT(r.repo_owner, '/', r.repo_name) != ALL($10::text[]))
+   AND ($10::text[] IS NULL OR ere.pull_request_id IS NULL OR pr.pr_number::text != ALL($10::text[]))
+   AND ($10::text[] IS NULL OR ere.artifact_id IS NULL OR a.artifact_name != ALL($10::text[]))
+   AND ($11::text[] IS NULL OR p.name != ALL($11::text[]))
+   AND ($12::remediation_status_types[] IS NULL OR re.status != ALL($12::remediation_status_types[]))
+   AND ($13::alert_status_types[] IS NULL OR ae.status != ALL($13::alert_status_types[]))
+   AND ($14::eval_status_types[] IS NULL OR s.status != ALL($14::eval_status_types[]))
    -- time range filter
    AND ($15::timestamp without time zone IS NULL OR s.evaluation_time >= $15)
    AND ($16::timestamp without time zone IS NULL OR  s.evaluation_time < $16)
@@ -294,7 +405,7 @@ SELECT s.id::uuid AS evaluation_id,
  ORDER BY
  CASE WHEN $1::timestamp without time zone IS NULL THEN s.evaluation_time END ASC,
  CASE WHEN $2::timestamp without time zone IS NULL THEN s.evaluation_time END DESC
- LIMIT $18::integer
+ LIMIT $18::bigint
 `
 
 type ListEvaluationHistoryParams struct {
@@ -315,7 +426,7 @@ type ListEvaluationHistoryParams struct {
 	Fromts          sql.NullTime             `json:"fromts"`
 	Tots            sql.NullTime             `json:"tots"`
 	Projectid       uuid.UUID                `json:"projectid"`
-	Size            int32                    `json:"size"`
+	Size            int64                    `json:"size"`
 }
 
 type ListEvaluationHistoryRow struct {
@@ -323,6 +434,7 @@ type ListEvaluationHistoryRow struct {
 	EvaluatedAt        time.Time                  `json:"evaluated_at"`
 	EntityType         Entities                   `json:"entity_type"`
 	EntityID           uuid.UUID                  `json:"entity_id"`
+	NewEntityID        uuid.UUID                  `json:"new_entity_id"`
 	RepoOwner          sql.NullString             `json:"repo_owner"`
 	RepoName           sql.NullString             `json:"repo_name"`
 	PrNumber           sql.NullInt64              `json:"pr_number"`
@@ -330,6 +442,7 @@ type ListEvaluationHistoryRow struct {
 	ProjectID          uuid.NullUUID              `json:"project_id"`
 	RuleType           string                     `json:"rule_type"`
 	RuleName           string                     `json:"rule_name"`
+	RuleSeverity       Severity                   `json:"rule_severity"`
 	ProfileName        string                     `json:"profile_name"`
 	EvaluationStatus   EvalStatusTypes            `json:"evaluation_status"`
 	EvaluationDetails  string                     `json:"evaluation_details"`
@@ -372,6 +485,7 @@ func (q *Queries) ListEvaluationHistory(ctx context.Context, arg ListEvaluationH
 			&i.EvaluatedAt,
 			&i.EntityType,
 			&i.EntityID,
+			&i.NewEntityID,
 			&i.RepoOwner,
 			&i.RepoName,
 			&i.PrNumber,
@@ -379,6 +493,7 @@ func (q *Queries) ListEvaluationHistory(ctx context.Context, arg ListEvaluationH
 			&i.ProjectID,
 			&i.RuleType,
 			&i.RuleName,
+			&i.RuleSeverity,
 			&i.ProfileName,
 			&i.EvaluationStatus,
 			&i.EvaluationDetails,
@@ -419,7 +534,8 @@ SELECT s.evaluation_time,
          WHEN ere.pull_request_id IS NOT NULL THEN ere.pull_request_id
          WHEN ere.artifact_id IS NOT NULL THEN ere.artifact_id
          END AS uuid
-       ) AS entity_id
+       ) AS entity_id,
+       ere.entity_instance_id as new_entity_id
   FROM evaluation_statuses s
        JOIN evaluation_rule_entities ere ON s.rule_entity_id = ere.id
        LEFT JOIN latest_evaluation_statuses l
@@ -444,6 +560,7 @@ type ListEvaluationHistoryStaleRecordsRow struct {
 	RuleID         uuid.UUID `json:"rule_id"`
 	EntityType     int32     `json:"entity_type"`
 	EntityID       uuid.UUID `json:"entity_id"`
+	NewEntityID    uuid.UUID `json:"new_entity_id"`
 }
 
 func (q *Queries) ListEvaluationHistoryStaleRecords(ctx context.Context, arg ListEvaluationHistoryStaleRecordsParams) ([]ListEvaluationHistoryStaleRecordsRow, error) {
@@ -461,6 +578,7 @@ func (q *Queries) ListEvaluationHistoryStaleRecords(ctx context.Context, arg Lis
 			&i.RuleID,
 			&i.EntityType,
 			&i.EntityID,
+			&i.NewEntityID,
 		); err != nil {
 			return nil, err
 		}
@@ -473,6 +591,29 @@ func (q *Queries) ListEvaluationHistoryStaleRecords(ctx context.Context, arg Lis
 		return nil, err
 	}
 	return items, nil
+}
+
+const temporaryPopulateEvaluationHistory = `-- name: TemporaryPopulateEvaluationHistory :exec
+
+UPDATE evaluation_rule_entities ere
+SET entity_instance_id = CASE
+    WHEN ere.entity_type = 'repository' THEN ere.repository_id
+    WHEN ere.entity_type = 'pull_request' THEN ere.pull_request_id
+    WHEN ere.entity_type = 'artifact' THEN ere.artifact_id
+END
+WHERE entity_instance_id IS NULL
+`
+
+// TemporaryPopulateEvaluationHistory sets the entity_instance_id column for
+// all existing evaluation_rule_entities records to the id of the entity
+// instance that the rule entity is associated with. We derive this from the entity_type
+// and the corresponding entity id (repository_id, pull_request_id, or artifact_id).
+// Note that there are cases where repository_id and pull_request_id will both be set,
+// so we need to rely on the entity_type to determine which one to use. The same
+// applies to repository_id and artifact_id.
+func (q *Queries) TemporaryPopulateEvaluationHistory(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, temporaryPopulateEvaluationHistory)
+	return err
 }
 
 const upsertLatestEvaluationStatus = `-- name: UpsertLatestEvaluationStatus :exec
@@ -490,9 +631,9 @@ SET evaluation_history_id = $2
 `
 
 type UpsertLatestEvaluationStatusParams struct {
-	RuleEntityID        uuid.UUID     `json:"rule_entity_id"`
-	EvaluationHistoryID uuid.UUID     `json:"evaluation_history_id"`
-	ProfileID           uuid.NullUUID `json:"profile_id"`
+	RuleEntityID        uuid.UUID `json:"rule_entity_id"`
+	EvaluationHistoryID uuid.UUID `json:"evaluation_history_id"`
+	ProfileID           uuid.UUID `json:"profile_id"`
 }
 
 func (q *Queries) UpsertLatestEvaluationStatus(ctx context.Context, arg UpsertLatestEvaluationStatusParams) error {

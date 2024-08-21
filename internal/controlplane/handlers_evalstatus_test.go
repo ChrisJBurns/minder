@@ -21,7 +21,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/sqlc-dev/pqtype"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
@@ -40,21 +39,18 @@ func TestBuildEvalResultAlertFromLRERow(t *testing.T) {
 		{
 			name: "normal",
 			sut: &db.ListRuleEvaluationsByProfileIdRow{
-				AlertStatus: db.NullAlertStatusTypes{
-					AlertStatusTypes: db.AlertStatusTypesOn,
+				AlertStatus:      db.AlertStatusTypesOn,
+				AlertLastUpdated: d,
+				AlertDetails:     "details go here",
+				AlertMetadata:    []byte(`{"ghsa_id": "GHAS-advisory_ID_here"}`),
+				RepoOwner: sql.NullString{
+					String: "example",
+					Valid:  true,
 				},
-				AlertLastUpdated: sql.NullTime{
-					Time: d,
+				RepoName: sql.NullString{
+					String: "test",
+					Valid:  true,
 				},
-				AlertDetails: sql.NullString{
-					String: "details go here",
-				},
-				AlertMetadata: pqtype.NullRawMessage{
-					Valid:      true,
-					RawMessage: []byte(`{"ghsa_id": "GHAS-advisory_ID_here"}`),
-				},
-				RepoOwner: "example",
-				RepoName:  "test",
 			},
 			expect: &minderv1.EvalResultAlert{
 				Status:      string(db.AlertStatusTypesOn),
@@ -66,15 +62,9 @@ func TestBuildEvalResultAlertFromLRERow(t *testing.T) {
 		{
 			name: "no-advisory",
 			sut: &db.ListRuleEvaluationsByProfileIdRow{
-				AlertStatus: db.NullAlertStatusTypes{
-					AlertStatusTypes: db.AlertStatusTypesOn,
-				},
-				AlertLastUpdated: sql.NullTime{
-					Time: d,
-				},
-				AlertDetails: sql.NullString{
-					String: "details go here",
-				},
+				AlertStatus:      db.AlertStatusTypesOn,
+				AlertLastUpdated: d,
+				AlertDetails:     "details go here",
 			},
 			expect: &minderv1.EvalResultAlert{
 				Status:      string(db.AlertStatusTypesOn),
@@ -86,20 +76,18 @@ func TestBuildEvalResultAlertFromLRERow(t *testing.T) {
 		{
 			name: "no-repo-owner",
 			sut: &db.ListRuleEvaluationsByProfileIdRow{
-				AlertStatus: db.NullAlertStatusTypes{
-					AlertStatusTypes: db.AlertStatusTypesOn,
+				AlertStatus:      db.AlertStatusTypesOn,
+				AlertLastUpdated: d,
+				AlertDetails:     "details go here",
+				AlertMetadata:    []byte(`{"ghsa_id": "GHAS-advisory_ID_here"}`),
+				RepoOwner: sql.NullString{
+					String: "",
+					Valid:  true,
 				},
-				AlertLastUpdated: sql.NullTime{
-					Time: d,
+				RepoName: sql.NullString{
+					String: "test",
+					Valid:  true,
 				},
-				AlertDetails: sql.NullString{
-					String: "details go here",
-				},
-				AlertMetadata: pqtype.NullRawMessage{
-					RawMessage: []byte(`{"ghsa_id": "GHAS-advisory_ID_here"}`),
-				},
-				RepoOwner: "",
-				RepoName:  "test",
 			},
 			expect: &minderv1.EvalResultAlert{
 				Status:      string(db.AlertStatusTypesOn),
@@ -325,7 +313,13 @@ func TestGetEntityName(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			res, err := getEntityName(tt.dbEnt, tt.row)
+			res, err := getEntityName(
+				tt.dbEnt,
+				tt.row.RepoOwner,
+				tt.row.RepoName,
+				tt.row.PrNumber,
+				tt.row.ArtifactName,
+			)
 
 			if tt.err {
 				require.Error(t, err)
@@ -371,6 +365,7 @@ func TestFromEvaluationHistoryRows(t *testing.T) {
 					ProjectID:    uuid.NullUUID{},
 					RuleType:     "rule_type",
 					RuleName:     "rule_name",
+					RuleSeverity: "unknown",
 					ProfileName:  "profile_name",
 				},
 			},
@@ -388,6 +383,7 @@ func TestFromEvaluationHistoryRows(t *testing.T) {
 					ProjectID:    uuid.NullUUID{},
 					RuleType:     "rule_type",
 					RuleName:     "rule_name",
+					RuleSeverity: "unknown",
 					ProfileName:  "profile_name",
 				},
 				{
@@ -400,6 +396,7 @@ func TestFromEvaluationHistoryRows(t *testing.T) {
 					ProjectID:    uuid.NullUUID{},
 					RuleType:     "rule_type",
 					RuleName:     "rule_name",
+					RuleSeverity: "unknown",
 					ProfileName:  "profile_name",
 				},
 			},
@@ -417,6 +414,7 @@ func TestFromEvaluationHistoryRows(t *testing.T) {
 					ProjectID:    uuid.NullUUID{},
 					RuleType:     "rule_type",
 					RuleName:     "rule_name",
+					RuleSeverity: "unknown",
 					ProfileName:  "profile_name",
 					AlertStatus:  nullAlertStatusOK(),
 					AlertDetails: nullStr("alert details"),
@@ -436,6 +434,7 @@ func TestFromEvaluationHistoryRows(t *testing.T) {
 					ProjectID:          uuid.NullUUID{},
 					RuleType:           "rule_type",
 					RuleName:           "rule_name",
+					RuleSeverity:       "unknown",
 					ProfileName:        "profile_name",
 					RemediationStatus:  nullRemediationStatusTypesSuccess(),
 					RemediationDetails: nullStr("remediation details"),
@@ -466,6 +465,9 @@ func TestFromEvaluationHistoryRows(t *testing.T) {
 				require.Equal(t, dbEntityToEntity(row.EntityType), item.Entity.Type)
 				require.Equal(t, row.RuleType, item.Rule.RuleType)
 				require.Equal(t, row.RuleName, item.Rule.Name)
+				sev, err := dbSeverityToSeverity(row.RuleSeverity)
+				require.NoError(t, err)
+				require.Equal(t, sev, item.Rule.Severity)
 				require.Equal(t, row.ProfileName, item.Rule.Profile)
 
 				require.Equal(t, row.AlertStatus.Valid, item.Alert != nil)

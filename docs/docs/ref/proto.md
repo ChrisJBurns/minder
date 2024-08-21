@@ -70,6 +70,7 @@ export const TypeLink = ({ children, type }) => {
 | ----------- | ------------ | ------------- | ------------|
 | ListEvaluationResults | [ListEvaluationResultsRequest](#minder-v1-ListEvaluationResultsRequest) | [ListEvaluationResultsResponse](#minder-v1-ListEvaluationResultsResponse) |  |
 | ListEvaluationHistory | [ListEvaluationHistoryRequest](#minder-v1-ListEvaluationHistoryRequest) | [ListEvaluationHistoryResponse](#minder-v1-ListEvaluationHistoryResponse) |  |
+| GetEvaluationHistory | [GetEvaluationHistoryRequest](#minder-v1-GetEvaluationHistoryRequest) | [GetEvaluationHistoryResponse](#minder-v1-GetEvaluationHistoryResponse) |  |
 
 
 
@@ -133,6 +134,7 @@ replies with OK
 | DeleteProfile | [DeleteProfileRequest](#minder-v1-DeleteProfileRequest) | [DeleteProfileResponse](#minder-v1-DeleteProfileResponse) |  |
 | ListProfiles | [ListProfilesRequest](#minder-v1-ListProfilesRequest) | [ListProfilesResponse](#minder-v1-ListProfilesResponse) |  |
 | GetProfileById | [GetProfileByIdRequest](#minder-v1-GetProfileByIdRequest) | [GetProfileByIdResponse](#minder-v1-GetProfileByIdResponse) |  |
+| GetProfileByName | [GetProfileByNameRequest](#minder-v1-GetProfileByNameRequest) | [GetProfileByNameResponse](#minder-v1-GetProfileByNameResponse) |  |
 | GetProfileStatusByName | [GetProfileStatusByNameRequest](#minder-v1-GetProfileStatusByNameRequest) | [GetProfileStatusByNameResponse](#minder-v1-GetProfileStatusByNameResponse) |  |
 | GetProfileStatusByProject | [GetProfileStatusByProjectRequest](#minder-v1-GetProfileStatusByProjectRequest) | [GetProfileStatusByProjectResponse](#minder-v1-GetProfileStatusByProjectResponse) |  |
 
@@ -857,6 +859,7 @@ EvalResultAlert holds the alert details for a given rule evaluation
 | name | <TypeLink type="string">string</TypeLink> |  | name is the name of the rule instance. |
 | rule_type | <TypeLink type="string">string</TypeLink> |  | type is the name of the rule type. |
 | profile | <TypeLink type="string">string</TypeLink> |  | profile is the name of the profile which contains the rule. |
+| severity | <TypeLink type="minder-v1-Severity">Severity</TypeLink> |  | severity is the severity of the rule type. |
 
 
 
@@ -962,6 +965,30 @@ Namespace: is the namespace for the GHCR provider.
 
 
 
+<Message id="minder-v1-GetEvaluationHistoryRequest">GetEvaluationHistoryRequest</Message>
+
+GetEvaluationHistoryRequest represents a request for the GetEvaluationHistory endpoint
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | <TypeLink type="string">string</TypeLink> |  |  |
+| context | <TypeLink type="minder-v1-Context">Context</TypeLink> |  |  |
+
+
+
+<Message id="minder-v1-GetEvaluationHistoryResponse">GetEvaluationHistoryResponse</Message>
+
+GetEvaluationHistoryResponse represents a response message for the
+GetEvaluationHistory RPC.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| evaluation | <TypeLink type="minder-v1-EvaluationHistory">EvaluationHistory</TypeLink> |  | The requested record |
+
+
+
 <Message id="minder-v1-GetInviteDetailsRequest">GetInviteDetailsRequest</Message>
 
 
@@ -1000,6 +1027,29 @@ get profile by id
 
 
 <Message id="minder-v1-GetProfileByIdResponse">GetProfileByIdResponse</Message>
+
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| profile | <TypeLink type="minder-v1-Profile">Profile</TypeLink> |  |  |
+
+
+
+<Message id="minder-v1-GetProfileByNameRequest">GetProfileByNameRequest</Message>
+
+get profile by name
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| context | <TypeLink type="minder-v1-Context">Context</TypeLink> |  | context is the context in which the rule type is evaluated. |
+| name | <TypeLink type="string">string</TypeLink> |  | name is the name of the profile to get |
+
+
+
+<Message id="minder-v1-GetProfileByNameResponse">GetProfileByNameResponse</Message>
 
 
 
@@ -1256,6 +1306,22 @@ naming convention
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | endpoint | <TypeLink type="string">string</TypeLink> | optional | Endpoint is the GitHub API endpoint. If using the public GitHub API, Endpoint can be left blank. |
+
+
+
+<Message id="minder-v1-GitLabProviderConfig">GitLabProviderConfig</Message>
+
+GitLabProviderConfig contains the configuration for the GitLab provider.
+
+Endpoint: is the GitLab API endpoint
+
+If using the public GitLab API, Endpoint can be left blank
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| endpoint | <TypeLink type="string">string</TypeLink> |  | Endpoint is the GitLab API endpoint. If using the public GitLab API, Endpoint can be left blank. |
+| group | <TypeLink type="string">string</TypeLink> |  | group is the GitLab group to use for the provider |
 
 
 
